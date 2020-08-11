@@ -1,7 +1,5 @@
-
 const dotenv = require('dotenv')
-dotenv.config({ path: '.env.dev' });
-dotenv.config({ path: '.env' });
+? process.argv[2]=="--dev" : dotenv.config({ path: '.env.dev' }) || dotenv.config({ path: '.env' });
 
 const BotClient = require('./src/structs/client');
 
