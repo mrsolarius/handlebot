@@ -6,16 +6,46 @@ const fsPromises = require('fs').promises
 
 class Command {
 
+    static get USER_PERMISSIONS () {
+        return {
+            sub: [],
+            unsub: [],
+            'sub.filters': []
+        }
+    }
+
+    static get BOT_PERMISSIONS () {
+        return {
+            clone: [Permissions.EMBED_LINKS],
+            date: [Permissions.EMBED_LINKS],
+            dump: [Permissions.EMBED_LINKS, Permissions.ATTACH_FILES],
+            embed: [Permissions.EMBED_LINKS],
+            filters: [Permissions.EMBED_LINKS],
+            list: [Permissions.EMBED_LINKS],
+            mention: [Permissions.EMBED_LINKS],
+            move: [Permissions.EMBED_LINKS],
+            options: [Permissions.EMBED_LINKS],
+            remove: [Permissions.EMBED_LINKS],
+            refresh: [Permissions.EMBED_LINKS],
+            split: [Permissions.EMBED_LINKS],
+            sub: [Permissions.EMBED_LINKS, Permissions.MANAGE_ROLES],
+            test: [Permissions.EMBED_LINKS],
+            text: [Permissions.EMBED_LINKS],
+            unsub: [Permissions.EMBED_LINKS, Permissions.MANAGE_ROLES],
+            webhook: [Permissions.EMBED_LINKS]
+        }
+    }
+
     /**
      * @param {string} name - Command name
      * @param {function} func - Command function
-     * @param {boolean} owner - If this is an owner command
+     * @param {boolean} owner - If this is an admin command
      */
     constructor(name, func, owner = false) {
         /**
-         * @todo utiliser la variable owner pour verifier les permition de l'utilisateur
+         * @todo utiliser la variable admin pour verifier les permition de l'utilisateur
          */
-        this.owner = owner
+        this.admin = owner
         this.name = name
         this.func = func
     }
