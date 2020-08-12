@@ -35,7 +35,6 @@ class Client {
         try {
             const client = new Discord.Client(CLIENT_OPTIONS)
             await client.login(process.env.TOKEN)
-            console.log(client)
             this.bot = client
         }catch (err) {
             return log.error(err,'Le bot ne peut pas se connecter')
