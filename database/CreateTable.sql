@@ -19,10 +19,17 @@ CREATE TABLE users
     constraint PK_user primary key ("userID")
 );
 
+create table lang
+(
+    "langID" serial,
+    "lang"   varchar(20),
+    constraint pk_lang primary key ("langID")
+);
+
 create table organizations
 (
     "organizationSID" varchar(10) not null,
-    "title"           varchar(50),
+    "name"            varchar(50),
     "logo"            varchar(256),
     "memberCount"     integer,
     "recruiting"      varchar(3),
@@ -35,14 +42,9 @@ create table organizations
     "secondaryImage"  varchar(256),
     "banner"          varchar(256),
     "headline"        varchar(300),
+    "langID"          serial,
+    constraint fk_lang_speak foreign key ("langID") references lang ("langID"),
     constraint PK_organisation primary key ("organizationSID")
-);
-
-create table lang
-(
-    "langID" serial,
-    "lang"   varchar(20),
-    constraint pk_lang primary key ("langID")
 );
 
 create table speak
@@ -52,13 +54,4 @@ create table speak
     constraint pk_speak primary key ("userID", "langID"),
     constraint fk_user_speak foreign key ("userID") references users ("userID") ON DELETE CASCADE,
     constraint fk_lang_speak foreign key ("langID") references lang ("langID")
-);
-
-create table organisationSpeak
-(
-    "organizationSID" varchar(10) not null,
-    "langID"          serial      not null,
-    constraint pk_organisationSpeak primary key ("organizationSID", "langID"),
-    constraint fk_organisation_organisationSpeak foreign key ("organizationSID") references organizations ("organizationSID"),
-    constraint fk_lang_organisationSpeak foreign key ("langID") references lang ("langID")
 );
