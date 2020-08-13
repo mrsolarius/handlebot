@@ -35,7 +35,7 @@ create table organizations
     "secondaryImage"  varchar(256),
     "banner"          varchar(256),
     "headline"        varchar(300),
-    constraint PK_organisation primary key ("organisationSID")
+    constraint PK_organisation primary key ("organizationSID")
 );
 
 create table lang
@@ -56,9 +56,9 @@ create table speak
 
 create table organisationSpeak
 (
-    "organisationSID" varchar(10) not null,
+    "organizationSID" varchar(10) not null,
     "langID"          serial      not null,
-    constraint pk_organisationSpeak primary key ("organisationSID", "langID"),
-    constraint fk_organisation_organisationSpeak foreign key ("organisationSID") references organisations ("organisationSID"),
+    constraint pk_organisationSpeak primary key ("organizationSID", "langID"),
+    constraint fk_organisation_organisationSpeak foreign key ("organizationSID") references organizations ("organizationSID"),
     constraint fk_lang_organisationSpeak foreign key ("langID") references lang ("langID")
 );
