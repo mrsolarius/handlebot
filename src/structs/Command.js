@@ -86,7 +86,7 @@ class Command {
     }
 
     /**
-     *
+     * Récupération d'une commande stoker dans le dossier commands grasse au message envoyer
      * @param {import('discord.js').Message} message
      * @returns Command
      */
@@ -163,6 +163,7 @@ class Command {
 /**
  * Si les commande on déjà était récupérer et insizialisée
  */
+console.log('ici')
 Command.initialized = false
 Command.initialize()
 /**
