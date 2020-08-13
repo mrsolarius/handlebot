@@ -18,7 +18,7 @@ module.exports = async (message, user) => {
     if (user.lang)
         newMessage.addField("Langue(s) parlée(s)", user.lang.join(), true);
     if (user.organisationSID)
-        newMessage.addField("Organisation", `*Organisation :* ${user.organisationSID}\n*Rank :* ${user.organisationRank}`, true);
+        newMessage.addField("Organisation", `*Organisation :* ${user.organizationSID}\n*Rank :* ${user.organizationRank}`, true);
     if (user.bio)
         newMessage.addField("Bio", user.bio);
     newMessage.setColor('#1681a5');

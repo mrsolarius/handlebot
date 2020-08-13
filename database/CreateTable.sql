@@ -4,8 +4,8 @@ CREATE TABLE users
     "discordID"        char(18) unique    not null,
     "handle"           varchar(20) unique not null,
     "displayName"      varchar(30),
-    "organisationSID"  varchar(10),
-    "organisationRank" varchar(20),
+    "organizationSID"  varchar(10),
+    "organizationRank" varchar(20),
     "enlisted"         TIMESTAMP,
     "avatarURL"        varchar(256),
     "badge"            varchar(30),
@@ -19,9 +19,9 @@ CREATE TABLE users
     constraint PK_user primary key ("userID")
 );
 
-create table organisations
+create table organizations
 (
-    "organisationSID" varchar(10) not null,
+    "organizationSID" varchar(10) not null,
     "title"           varchar(50),
     "logo"            varchar(256),
     "memberCount"     integer,

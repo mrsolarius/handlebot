@@ -63,8 +63,8 @@ class User {
                     returnUser.region = userData.profile.region
                 }
                 if (userData.organization) {
-                    returnUser.organisationSID = userData.organization.sid
-                    returnUser.organisationRank = userData.organization.name
+                    returnUser.organizationSID = userData.organization.sid
+                    returnUser.organizationRank = userData.organization.rank
                 }
 
                 return returnUser
