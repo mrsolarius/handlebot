@@ -12,7 +12,6 @@ class Organization {
             return returnOrganization
         }else{
             organizationData = await scapi.getOrganization(organizationSID)
-            console.log(organizationData)
             if (organizationData){
                 returnOrganization.organizationSID = organizationData.sid
                 returnOrganization.name = organizationData.name
