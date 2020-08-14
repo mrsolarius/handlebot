@@ -1,10 +1,13 @@
 const handleHelp = require('./handle/handleHelp')
 const handleProfile = require('./handle/handleProfile')
+const handleSet = require('./handle/handleSet')
 const User = require('../models/User')
+const select = require('../interfaces/database/select')
+const del = require('../interfaces/database/delete')
 
 /**
  * @param {import('discord.js').Message} message
- * @returns {Promise<void>}
+ * @returns {Promise<Message>|Promise<void>}
  */
 module.exports = async (message) => {
     //séparation des élément de la commande en tableau
@@ -20,9 +23,19 @@ module.exports = async (message) => {
     if (contentArray.length>=2) {
         switch (contentArray[1]) {
             case 'set':
-                User.tryGetUserFromHandle(contentArray[2])
+                if (contentArray[2]){
+                    return await handleSet(message,contentArray[2])
+                }else {
+                    return await message.channel.send("⚠  **Votre commande doit indiquer un handle aprés le parmettre set**")
+                }
                 break;
             case 'unset':
+                if (await select.isRegisterFromDiscordID(message.author.id)){
+                    await del.unset(message.author.id)
+                    return await message.channel.send("✅ **Votre profile à bien été suprimer de la base de donnée**")
+                }else{
+                    return await message.channel.send("✅ **Votre handle n'est déjà plus associer à votre compte discord**")
+                }
                 break;
             case 'help':
                 await handleHelp(message)

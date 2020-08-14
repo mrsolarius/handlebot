@@ -4,8 +4,8 @@ CREATE TABLE users
     "discordID"        char(18) unique    not null,
     "handle"           varchar(20) unique not null,
     "displayName"      varchar(30),
-    "organisationSID"  varchar(10),
-    "organisationRank" varchar(20),
+    "organizationSID"  varchar(10),
+    "organizationRank" varchar(20),
     "enlisted"         TIMESTAMP,
     "avatarURL"        varchar(256),
     "badge"            varchar(30),
@@ -19,30 +19,32 @@ CREATE TABLE users
     constraint PK_user primary key ("userID")
 );
 
-create table organisations
+create table lang
 (
-    "organisationSID" varchar(10) not null,
-    "title"           varchar(50),
+    "langID" serial,
+    "lang"   varchar(20),
+    constraint pk_lang primary key ("langID")
+);
+
+create table organizations
+(
+    "organizationSID" varchar(10) not null,
+    "name"            varchar(50),
     "logo"            varchar(256),
     "memberCount"     integer,
-    "recruiting"      varchar(3),
+    "recruiting"      BOOLEAN,
     "archetype"       varchar(20),
     "commitment"      varchar(10),
-    "roleplay"        varchar(3),
+    "roleplay"        BOOLEAN,
     "primaryFocus"    varchar(20),
     "primaryImage"    varchar(256),
     "secondaryFocus"  varchar(20),
     "secondaryImage"  varchar(256),
     "banner"          varchar(256),
     "headline"        varchar(300),
-    constraint PK_organisation primary key ("organisationSID")
-);
-
-create table lang
-(
-    "langID" serial,
-    "lang"   varchar(20),
-    constraint pk_lang primary key ("langID")
+    "langID"          serial,
+    constraint fk_lang_speak foreign key ("langID") references lang ("langID"),
+    constraint PK_organisation primary key ("organizationSID")
 );
 
 create table speak
@@ -52,13 +54,4 @@ create table speak
     constraint pk_speak primary key ("userID", "langID"),
     constraint fk_user_speak foreign key ("userID") references users ("userID") ON DELETE CASCADE,
     constraint fk_lang_speak foreign key ("langID") references lang ("langID")
-);
-
-create table organisationSpeak
-(
-    "organisationSID" varchar(10) not null,
-    "langID"          serial      not null,
-    constraint pk_organisationSpeak primary key ("organisationSID", "langID"),
-    constraint fk_organisation_organisationSpeak foreign key ("organisationSID") references organisations ("organisationSID"),
-    constraint fk_lang_organisationSpeak foreign key ("langID") references lang ("langID")
 );

@@ -37,6 +37,9 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+#Idea settings
+.idea/
+
 # Dependency directories
 node_modules/
 jspm_packages/
@@ -71,7 +74,7 @@ typings/
 # dotenv environment variables file
 .env.test
 .env.dev
-
+<
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
