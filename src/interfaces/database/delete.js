@@ -1,4 +1,5 @@
 const db = require('../../util/PostgresHelper');
+const User = require('../../models/User')
 
 module.exports = {
     /**
@@ -7,9 +8,9 @@ module.exports = {
      * @return {Promise<void>}
      */
     async unset(discordID){
-        let data = await db.query(`
-            Delete FROM USERS 
+        await db.query(`
+            Delete FROM USERS
             WHERE "discordID" = $1`,[discordID]);
-        console.log(data)
+
     }
 }
