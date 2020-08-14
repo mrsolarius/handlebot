@@ -80,8 +80,6 @@ module.exports = {
             langData.push(langID[i])
         }
         strReturn = strReturn.substr(0, strReturn.length - 1);
-        console.log(langData)
-        console.log(strReturn)
         //insertion des langue parlers
         await db.query(`
                     Insert into speak
