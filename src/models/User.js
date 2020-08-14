@@ -7,8 +7,8 @@ class User {
         this.discordID = null
         this.country =null
         this.region = null
-        this.organisationSID = null
-        this.organisationRank = null
+        this.organizationSID = null
+        this.organizationRank = null
         this.bio = null
         this.lang = []
     }
@@ -36,7 +36,6 @@ class User {
     static async tryGetUserFromHandle(handle){
         let returnUser = new User()
         let userData
-        console.log(await select.isRegisterFromHandle(handle))
         if (await select.isRegisterFromHandle(handle)){
             userData = await select.getUserFromHandle(handle)
             returnUser = userData
@@ -59,8 +58,8 @@ class User {
                 returnUser.lang = userData.profile.fluency
 
                 if(userData.profile.location){
-                    returnUser.country = userData.profile.location
-                    returnUser.region = userData.profile.region
+                    returnUser.country = userData.profile.location.coutry
+                    returnUser.region = userData.profile.location.region
                 }
                 if (userData.organization) {
                     returnUser.organizationSID = userData.organization.sid
