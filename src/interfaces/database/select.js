@@ -11,7 +11,7 @@ module.exports = {
         let data = await db.query(`
             SELECT * 
             FROM USERS 
-            FULL OUTER JOIN organisations on organisations."organisationSID" = users."organisationSID"
+            FULL OUTER JOIN organizations on organizations."organizationSID" = users."organizationSID"
             WHERE "discordID" = $1`,[discordID]);
         return data.rows[0]
     },
@@ -24,7 +24,7 @@ module.exports = {
         let data = await db.query(`
             SELECT * 
             FROM USERS 
-            FULL OUTER JOIN organisations on organisations."organisationSID" = users."organisationSID"
+            FULL OUTER JOIN organizations on organizations."organizationSID" = users."organizationSID"
             WHERE lower(handle) = lower($1)`,[handle]);
         return data.rows[0]
     },
@@ -100,6 +100,56 @@ module.exports = {
             returnedLang.push(lang.lang)
         }
         return returnedLang
+    },
+    /**
+     * Requet permettant de verifier qu'une organisation se trouve dans la BDD
+     * @param {String} organizationSID
+     * @return {Promise<boolean>}
+     */
+    async isOrganizationRegisterFromSID(organizationSID){
+        let data = await db.query(`
+            SELECT count(*) 
+            FROM organizations 
+            WHERE lower("organizationSID") = lower($1)`,[organizationSID]);
+        let count = parseInt(data.rows[0].count,10)
+        if (count===0){
+            return false
+        }else if(count===1){
+            return true
+        }else {
+            return log.warn('Un sid est enregistrer plus de une fois dans la BDD ce n\'est normalement pas possible')
+        }
+    },
+    /**
+     * Permet de récupérer une organisation depuis sont SID
+     * @param {String} organizationSID
+     * @return {Promise<*|HTMLTableRowElement|string>}
+     */
+    async getOrganizationFromSID(organizationSID) {
+        let data = await db.query(`
+            SELECT *
+            FROM organizations
+            WHERE lower("organizationSID") = lower($1)`, [organizationSID]);
+        return data.rows[0]
+    },
+    /**
+     *
+     * @param {*|HTMLTableRowElement|string} lang
+     */
+    async getLangIDs(lang) {
+        let strReturn = ""
+        let returnedLang = []
+        for (let i = 0; i < lang.length; i++) {
+            strReturn += '$'+(i+1)+','
+        }
+        strReturn = strReturn.substr(0, strReturn.length - 1);
+        let data = await db.query(`
+            select "langID"
+            from lang
+            where lang.lang in (${strReturn})`, lang)
+        for(let lang of data.rows){
+            returnedLang.push(lang.langID)
+        }
+        return returnedLang
     }
-
 }
