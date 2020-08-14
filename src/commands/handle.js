@@ -1,6 +1,7 @@
 const handleHelp = require('./handle/handleHelp')
 const handleProfile = require('./handle/handleProfile')
 const handleSet = require('./handle/handleSet')
+const handleInfo = require('./handle/handleInfo')
 const User = require('../models/User')
 const select = require('../interfaces/database/select')
 const del = require('../interfaces/database/delete')
@@ -37,8 +38,11 @@ module.exports = async (message) => {
                     return await message.channel.send("✅ **Votre handle n'est déjà plus associer à votre compte discord**")
                 }
                 break;
+            case 'info':
+                return await handleInfo(message)
+                break;
             case 'help':
-                await handleHelp(message)
+                return await handleHelp(message)
                 break;
             default:
                 if (contentArray.length===2) {
