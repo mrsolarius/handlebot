@@ -1,6 +1,7 @@
 const get = require('../../util/xhrRequest')
 const log = require("../../util/logger");
 const User = require('../../models/User')
+const Organization = require('../../models/Organization')
 
 module.exports = {
     /**
@@ -43,17 +44,38 @@ module.exports = {
             return e
         }
     },
+    /**
+     * Permet de récupérer une organisation depuis sont SID
+     * @param organizationSID
+     * @return {Promise<void|Organization>}
+     */
     async getOrganization(organizationSID){
         try {
             let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/live/organization/${organizationSID}`)
             apiJSON = JSON.parse(apiJSON)
             if (apiJSON.data.sid){
-                return apiJSON.data
+                let returnOrganization = new Organization.constructor()
+                returnOrganization.organizationSID = apiJSON.data.sid
+                returnOrganization.name = apiJSON.data.name
+                returnOrganization.logo = apiJSON.data.logo
+                returnOrganization.memberCount = apiJSON.data.members
+                returnOrganization.recruiting = apiJSON.data.recruiting
+                returnOrganization.archetype = apiJSON.data.archetype
+                returnOrganization.commitment = apiJSON.data.commitment
+                returnOrganization.roleplay = apiJSON.data.roleplay
+                returnOrganization.primaryFocus = apiJSON.data.focus.primary.name
+                returnOrganization.primaryImage = apiJSON.data.focus.primary.image
+                returnOrganization.secondaryFocus = apiJSON.data.focus.secondary.name
+                returnOrganization.secondaryImage = apiJSON.data.focus.secondary.image
+                returnOrganization.banner = apiJSON.data.banner
+                returnOrganization.headline = apiJSON.data.headline.plaintext
+                returnOrganization.lang = apiJSON.data.lang
+                return returnOrganization
             }else {
                 return log.warn('Le handle n\'existe pas')
             }
         } catch (e) {
             return e
         }
-    }
+    },
 }
