@@ -33,8 +33,7 @@ module.exports = async (message) => {
                 break;
             case 'unset':
                 if (await select.isRegisterFromDiscordID(message.author.id)){
-                    await del.unset(message.author.id)
-                    return await message.channel.send("✅ **Votre profile à bien été suprimer de la base de donnée**")
+                    return Promise.all([message.channel.send("✅ **Votre profile à bien été suprimer de la base de donnée**"),del.unset(message.author.id)])
                 }else{
                     return await message.channel.send("✅ **Votre handle n'est déjà plus associer à votre compte discord**")
                 }
@@ -57,7 +56,7 @@ module.exports = async (message) => {
                     } else {
                         let user = await User.tryGetUserFromHandle(contentArray[1])
                         if (user) {
-                            return await handleProfile(message, user)
+                            return Promise.all([handleProfile(message, user),update.updateUser(user)])
                         } else {
                             return await message.channel.send("⚠  **Le Handle indiqué n'a pas été trouver**")
                         }
