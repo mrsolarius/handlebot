@@ -4,6 +4,7 @@ const handleSet = require('./handle/handleSet')
 const handleInfo = require('./handle/handleInfo')
 const User = require('../models/User')
 const select = require('../interfaces/database/select')
+const update = require('../interfaces/database/update')
 const del = require('../interfaces/database/delete')
 
 /**
@@ -16,7 +17,7 @@ module.exports = async (message) => {
     if (contentArray.length===1){
         let user = await User.tryGetUserFromDiscord(message.author.id)
         if (user) {
-            return await handleProfile(message, user)
+            return Promise.all([handleProfile(message, user),update.updateUser(user)])
         } else {
             return await message.channel.send("⚠ **Vous n'avez pas de handle associer, veuillez executer la commande suivante : `!handle set votrehandele` pour vous en associer un **")
         }
@@ -49,7 +50,7 @@ module.exports = async (message) => {
                     if (message.mentions.members.array().length === 1) {
                         let user = await User.tryGetUserFromDiscord(message.mentions.members.first().id)
                         if (user) {
-                            return await handleProfile(message, user)
+                            return Promise.all([handleProfile(message, user),update.updateUser(user)])
                         } else {
                             return await message.channel.send("⚠ **Le membre mentioné na pas de handle associer**")
                         }

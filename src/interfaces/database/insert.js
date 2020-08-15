@@ -1,5 +1,6 @@
 const db = require('../../util/PostgresHelper')
-const select = require('./../database/select')
+const select = require('./select')
+const update = require('./update')
 const Organization = require('../../models/Organization')
 const User = require('../../models/User')
 
@@ -64,27 +65,6 @@ module.exports = {
                 user.website
             ]
         );
-        // récupération du tableau d'id des lang
-        let langID = await select.getLangIDs(user.lang)
-        let langData = []
-        let strReturn = ""
-        let i1 = 0, i2;
-        for (let i = 0; i < langID.length; i++) {
-            i1 = i1 + 1
-            i2 = i1 + 1
-            //génération de autant de $ d'isertion que n'asaisaire
-            strReturn += `($${i1},$${i2}),`
-            i1 = i2
-            //ajout des donnée dans le tableau dans l'ordre demander par la requette
-            langData.push(user.userID)
-            langData.push(langID[i])
-        }
-        strReturn = strReturn.substr(0, strReturn.length - 1);
-        //insertion des langue parlers
-        await db.query(`
-                    Insert into speak
-                    ("userID", "langID")
-                    values ${strReturn}`, langData
-        )
+        await update.updateUserLang(user)
      }
 }
