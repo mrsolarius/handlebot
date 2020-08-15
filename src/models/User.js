@@ -18,14 +18,8 @@ class User {
      * @return User
      */
     static async tryGetUserFromDiscord(discordID){
-        console.log(discordID)
-        let returnUser = new User()
-        let userData
         if (await select.isRegisterFromDiscordID(discordID)){
-            userData = await select.getUserFromDiscordID(discordID)
-            returnUser = userData
-            returnUser.lang = await select.getUserLangFromDiscordID(discordID)
-            return returnUser
+            return await select.getUserFromDiscordID(discordID)
         }
     }
 
@@ -35,37 +29,11 @@ class User {
      */
     static async tryGetUserFromHandle(handle){
         let returnUser = new User()
-        let userData
         if (await select.isRegisterFromHandle(handle)){
-            userData = await select.getUserFromHandle(handle)
-            returnUser = userData
-            returnUser.lang = await select.getUserLangFromHandle(handle)
-            return returnUser
+            return await select.getUserFromHandle(handle)
         }else {
-            userData = await scapi.getUser(handle)
-            if(userData){
-                returnUser.userID = parseInt(userData.profile.id.replace('#',''))
-                returnUser.handle = userData.profile.handle
-                returnUser.displayName = userData.profile.display
-                returnUser.enlisted = userData.profile.enlisted
-                returnUser.avatarURL = userData.profile.image
-                returnUser.badge = userData.profile.badge
-                returnUser.badgeImage = userData.profile.badge_image
-                returnUser.bio = userData.profile.bio
-                returnUser.pageTitle = userData.profile.page.title
-                returnUser.pageLink = userData.profile.page.url
-                returnUser.website = userData.profile.website
-                returnUser.lang = userData.profile.fluency
-
-                if(userData.profile.location){
-                    returnUser.country = userData.profile.location.coutry
-                    returnUser.region = userData.profile.location.region
-                }
-                if (userData.organization) {
-                    returnUser.organizationSID = userData.organization.sid
-                    returnUser.organizationRank = userData.organization.rank
-                }
-
+            returnUser = await scapi.getUser(handle)
+            if(returnUser){
                 return returnUser
             }
         }

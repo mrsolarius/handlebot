@@ -1,5 +1,6 @@
 const log = require("../../util/logger");
 const db = require('../../util/PostgresHelper');
+const User = require('../../models/User');
 
 module.exports = {
     /**
@@ -8,25 +9,31 @@ module.exports = {
      * @return {Promise<*|HTMLTableRowElement|string>}
      */
     async getUserFromDiscordID(discordID){
+        let returnUser = new User.constructor()
         let data = await db.query(`
             SELECT * 
             FROM USERS 
             FULL OUTER JOIN organizations on organizations."organizationSID" = users."organizationSID"
             WHERE "discordID" = $1`,[discordID]);
-        return data.rows[0]
+        returnUser = data.rows[0]
+        returnUser.lang = await this.getUserLangFromUserID(returnUser.userID)
+        return returnUser
     },
     /**
      * Requete de selection d'un membre par son handle
      * @param {String} handle
-     * @return {Promise<*|HTMLTableRowElement|string>}
+     * @return {Promise<User>}
      */
     async getUserFromHandle(handle){
+        let returnUser = new User.constructor()
         let data = await db.query(`
             SELECT * 
             FROM USERS 
             FULL OUTER JOIN organizations on organizations."organizationSID" = users."organizationSID"
             WHERE lower(handle) = lower($1)`,[handle]);
-        return data.rows[0]
+        returnUser = data.rows[0]
+        returnUser.lang = await this.getUserLangFromUserID(returnUser.userID)
+        return returnUser
     },
     /**
      * Requet permettant de verifier si un utilisateur et présent dans la BDD par sont iddiscord
@@ -67,34 +74,16 @@ module.exports = {
         }
     },
     /**
-     * Renvoie les lang parler par un utilisateur depuis sont iddiscord
-     * @param  {String} discordID
+     * Renvoie les lang parler par un utilisateur depuis sont id
+     * @param  {String} UserID
      * @return {Promise<[String]>}
      */
-    async getUserLangFromDiscordID(discordID){
+    async getUserLangFromUserID(UserID){
         let data = await db.query(`
-            select lang from users
-            inner join speak ON speak."userID" = users."userID"
+            select lang from speak
             inner join lang ON lang."langID" = speak."langID"
-            where "discordID" = $1`,[discordID]);
+            where speak."userID" = $1`,[UserID]);
 
-        let returnedLang = []
-        for(let lang of data.rows){
-            returnedLang.push(lang.lang)
-        }
-        return returnedLang
-    },
-    /**
-     * Renvoie les lang parler par un utilisateur depuis sont handle
-     * @param  {String} handle
-     * @return {Promise<[String]>}
-     */
-    async getUserLangFromHandle(handle){
-        let data = await db.query(`
-            select lang from users
-            inner join speak ON speak."userID" = users."userID"
-            inner join lang ON lang."langID" = speak."langID"
-            where lower(handle) = lower($1)`,[handle]);
         let returnedLang = []
         for(let lang of data.rows){
             returnedLang.push(lang.lang)
