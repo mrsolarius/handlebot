@@ -1,5 +1,5 @@
-const scapi = require("../interfaces/restAPI/scAPI")
 const select = require("../interfaces/database/select");
+const scapi = require("../interfaces/restAPI/scAPI")
 
 
 class Organization {
@@ -13,8 +13,7 @@ class Organization {
      * @return {Promise<Organization|void>}
      */
     static async tryGetOrganizationFromSID(organizationSID){
-        console.log(scapi)
-        console.log(select)
+        //let select = require("../interfaces/database/select");
         if (await select.isOrganizationRegisterFromSID(organizationSID)){
             return await select.getOrganizationFromSID(organizationSID)
         }else{

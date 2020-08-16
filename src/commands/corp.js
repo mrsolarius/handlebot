@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const select = require('../interfaces/database/select')
 const Organization = require('../models/Organization')
 const CorpPage = require('./corp/corpPage')
 

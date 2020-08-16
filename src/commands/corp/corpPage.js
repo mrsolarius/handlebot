@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 module.exports = async (message, organization) => {
-    let newMessage = new Discord.RichEmbed();
+    let newMessage = new Discord.MessageEmbed();
     newMessage.setColor('#1681a5');
     newMessage.setTitle(organization.name);
     newMessage.setThumbnail(organization.logo);

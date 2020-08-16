@@ -1,7 +1,7 @@
 const log = require("../../util/logger");
 const db = require("../../util/PostgresHelper");
-const User = require("../../models/User");
-const Organization = require("../../models/Organization")
+//const User = require("../../models/User");
+//const Organization = require("../../models/Organization")
 
 module.exports = {
     /**
@@ -10,7 +10,7 @@ module.exports = {
      * @return {Promise<*|HTMLTableRowElement|string>}
      */
     async getUserFromDiscordID(discordID){
-        let returnUser = new User.constructor()
+        let returnUser = {}
         let data = await db.query(`
             SELECT * 
             FROM USERS 
@@ -26,7 +26,7 @@ module.exports = {
      * @return {Promise<User>}
      */
     async getUserFromHandle(handle){
-        let returnUser = new User.constructor()
+        let returnUser = {}
         let data = await db.query(`
             SELECT * 
             FROM USERS 
@@ -120,7 +120,7 @@ module.exports = {
             SELECT *
             FROM organizations
             WHERE lower("organizationSID") = lower($1)`, [organizationSID]);
-        let returnOrganization = new Organization.constructor()
+        let returnOrganization = {}
         returnOrganization = data.rows[0]
         let lang = await this.getLangFromID([returnOrganization.langID])
         returnOrganization.lang = lang[0]

@@ -31,6 +31,5 @@ module.exports = async (message, user) => {
     }
 
     newMessage.setTimestamp();
-    console.log(newMessage)
     await message.channel.send(newMessage);
 }
