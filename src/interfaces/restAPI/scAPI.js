@@ -1,7 +1,7 @@
 const get = require('../../util/xhrRequest')
 const log = require("../../util/logger");
-const User = require('../../models/User')
-const Organization = require('../../models/Organization')
+//const User = require('../../models/User')
+//const Organization = require('../../models/Organization')
 
 module.exports = {
     /**
@@ -14,7 +14,7 @@ module.exports = {
             let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/live/user/${handle}`)
             apiJSON = JSON.parse(apiJSON)
             if (apiJSON.data.profile){
-                let returnUser = new User.constructor()
+                let returnUser = {}
                 returnUser.userID = parseInt(apiJSON.data.profile.id.replace('#',''))
                 returnUser.handle = apiJSON.data.profile.handle
                 returnUser.displayName = apiJSON.data.profile.display
@@ -54,7 +54,7 @@ module.exports = {
             let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/live/organization/${organizationSID}`)
             apiJSON = JSON.parse(apiJSON)
             if (apiJSON.data.sid){
-                let returnOrganization = new Organization.constructor()
+                let returnOrganization = {}
                 returnOrganization.organizationSID = apiJSON.data.sid
                 returnOrganization.name = apiJSON.data.name
                 returnOrganization.logo = apiJSON.data.logo
