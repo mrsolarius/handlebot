@@ -11,7 +11,7 @@ module.exports = {
      */
     async getUser(handle) {
         try {
-            let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/live/user/${handle}`)
+            let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/eager/user/${handle}`)
             apiJSON = JSON.parse(apiJSON)
             if (apiJSON.data.profile){
                 let returnUser = {}
@@ -51,7 +51,7 @@ module.exports = {
      */
     async getOrganization(organizationSID){
         try {
-            let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/live/organization/${organizationSID}`)
+            let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/eager/organization/${organizationSID}`)
             apiJSON = JSON.parse(apiJSON)
             if (apiJSON.data.sid){
                 let returnOrganization = {}
