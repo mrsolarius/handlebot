@@ -78,4 +78,17 @@ module.exports = {
             return e
         }
     },
+    async getStarCitizenStats(){
+        try {
+            let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/eager/stats/`)
+            apiJSON = JSON.parse(apiJSON)
+            if(apiJSON.data){
+                return apiJSON.data
+            }else {
+                return log.warn('une ereur et survenue lors de la récupération des donnée de la scapi sur getStarCitizenStats')
+            }
+        } catch (e) {
+            return e
+        }
+    }
 }
