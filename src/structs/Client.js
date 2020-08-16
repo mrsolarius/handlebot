@@ -2,6 +2,7 @@ require('dotenv').config()
 const Discord = require('discord.js')
 const log = require('../util/logger')
 const listeners = require('../util/listeners')
+const select = require('../interfaces/database/select')
 
 /**
  * @type {import('discord.js').ClientOptions}

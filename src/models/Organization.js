@@ -1,34 +1,25 @@
-const select = require('../interfaces/database/select')
-const scapi = require("../interfaces/restAPI/scAPI");
+const select = require("../interfaces/database/select");
+const scapi = require("../interfaces/restAPI/scAPI")
+
 
 class Organization {
 
+    constructor() {
+        this.lang = null
+    }
+    /**
+     * Permet de tenter la récupération d'une organisation depuis sont sid
+     * @param organizationSID
+     * @return {Promise<Organization|void>}
+     */
     static async tryGetOrganizationFromSID(organizationSID){
-        let returnOrganization = new Organization()
-        let organizationData
+        //let select = require("../interfaces/database/select");
         if (await select.isOrganizationRegisterFromSID(organizationSID)){
-            organizationData = await select.getOrganizationFromSID(organizationSID)
-            returnOrganization = organizationData
-            return returnOrganization
+            return await select.getOrganizationFromSID(organizationSID)
         }else{
-            organizationData = await scapi.getOrganization(organizationSID)
+            let organizationData = await scapi.getOrganization(organizationSID)
             if (organizationData){
-                returnOrganization.organizationSID = organizationData.sid
-                returnOrganization.name = organizationData.name
-                returnOrganization.logo = organizationData.logo
-                returnOrganization.memberCount = organizationData.members
-                returnOrganization.recruiting = organizationData.recruiting
-                returnOrganization.archetype = organizationData.archetype
-                returnOrganization.commitment = organizationData.commitment
-                returnOrganization.roleplay = organizationData.roleplay
-                returnOrganization.primaryFocus = organizationData.focus.primary.name
-                returnOrganization.primaryImage = organizationData.focus.primary.image
-                returnOrganization.secondaryFocus = organizationData.focus.secondary.name
-                returnOrganization.secondaryImage = organizationData.focus.secondary.image
-                returnOrganization.banner = organizationData.banner
-                returnOrganization.headline = organizationData.headline.plaintext
-                returnOrganization.lang = organizationData.lang
-                return returnOrganization
+                return organizationData
             }
         }
     }
