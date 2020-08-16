@@ -8,9 +8,11 @@ exports.createManagers = (bot) => {
     const fileNames = fs.readdirSync(path.join(__dirname, '..', 'events'))
     for (const fileName of fileNames) {
         const eventName = fileName.replace('.js', '')
-        const eventHandler = require(`../events/${fileName}`)
-        eventHandlers.push({ name: eventName, func: eventHandler })
-        bot.on(eventName, eventHandler)
+        if (eventName!=="eventScript") {
+            const eventHandler = require(`../events/${fileName}`)
+            eventHandlers.push({name: eventName, func: eventHandler})
+            bot.on(eventName, eventHandler)
+        }
     }
 }
 /**
