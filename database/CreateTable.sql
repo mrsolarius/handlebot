@@ -20,7 +20,7 @@ create table organizations
     "secondaryFocus"  varchar(20),
     "secondaryImage"  varchar(256),
     "banner"          varchar(256),
-    "headline"        varchar(300),
+    "headline"        varchar(500),
     "langID"          serial,
     constraint fk_lang_speak foreign key ("langID") references lang ("langID"),
     constraint PK_organisation primary key ("organizationSID")
@@ -33,7 +33,7 @@ CREATE TABLE users
     "handle"           varchar(20) unique not null,
     "displayName"      varchar(30),
     "organizationSID"  varchar(10),
-    "organizationRank" varchar(20),
+    "organizationRank" varchar(30),
     "enlisted"         TIMESTAMP,
     "avatarURL"        varchar(256),
     "badge"            varchar(30),
