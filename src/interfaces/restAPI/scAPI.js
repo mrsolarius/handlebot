@@ -16,6 +16,7 @@ module.exports = {
             if (apiJSON.data.profile){
                 let returnUser = {}
                 returnUser.userID = parseInt(apiJSON.data.profile.id.replace('#',''))
+                returnUser.discordID = null
                 returnUser.handle = apiJSON.data.profile.handle
                 returnUser.displayName = apiJSON.data.profile.display
                 returnUser.enlisted = apiJSON.data.profile.enlisted
@@ -38,9 +39,11 @@ module.exports = {
                 }
                 return returnUser
             }else {
-                return log.warn('Le handle n\'existe pas')
+                log.warn('Le handle n\'existe pas')
+                return null
             }
         } catch (e) {
+            console.log(e)
             return e
         }
     },
@@ -72,7 +75,8 @@ module.exports = {
                 returnOrganization.lang = apiJSON.data.lang
                 return returnOrganization
             }else {
-                return log.warn('Le handle n\'existe pas')
+                log.warn('Le handle n\'existe pas')
+                return null
             }
         } catch (e) {
             return e

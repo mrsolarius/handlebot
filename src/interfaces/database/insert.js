@@ -64,7 +64,7 @@ module.exports = {
                 user.region,
                 user.website
             ]
-        );
+        )
         await update.updateUserLang(user)
      }
 }
