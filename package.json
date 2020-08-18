@@ -2,6 +2,7 @@
   "dependencies": {
     "discord.js": "^12.2.0",
     "discord.js-prompts": "^2.2.0",
+    "discord.js-reaction-menu": "^1.0.2",
     "dotenv": "^8.2.0",
     "pg": "^8.3.0",
     "xmlhttprequest": "^1.8.0"

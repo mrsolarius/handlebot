@@ -1,7 +1,7 @@
 const select = require('./select')
 const insert = require('./insert')
 const scAPI = require('../restAPI/scAPI')
-const db = require('../../util/PostgresHelper');
+const db = require('../../utils/PostgresHelper');
 const User = require('../../models/User');
 
 module.exports = {

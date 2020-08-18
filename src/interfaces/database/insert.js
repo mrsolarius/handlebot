@@ -1,4 +1,4 @@
-const db = require('../../util/PostgresHelper')
+const db = require('../../utils/PostgresHelper')
 const select = require('./select')
 const update = require('./update')
 const Organization = require('../../models/Organization')
@@ -64,7 +64,7 @@ module.exports = {
                 user.region,
                 user.website
             ]
-        );
+        )
         await update.updateUserLang(user)
      }
 }

@@ -1,7 +1,7 @@
 const path = require('path')
 const Discord = require('discord.js')
 const { DiscordPromptRunner } = require('discord.js-prompts')
-const log = require('../util/logger')
+const log = require('../utils/logger')
 const fsPromises = require('fs').promises
 
 class Command {
@@ -11,28 +11,6 @@ class Command {
             sub: [],
             unsub: [],
             'sub.filters': []
-        }
-    }
-
-    static get BOT_PERMISSIONS () {
-        return {
-            clone: [Permissions.EMBED_LINKS],
-            date: [Permissions.EMBED_LINKS],
-            dump: [Permissions.EMBED_LINKS, Permissions.ATTACH_FILES],
-            embed: [Permissions.EMBED_LINKS],
-            filters: [Permissions.EMBED_LINKS],
-            list: [Permissions.EMBED_LINKS],
-            mention: [Permissions.EMBED_LINKS],
-            move: [Permissions.EMBED_LINKS],
-            options: [Permissions.EMBED_LINKS],
-            remove: [Permissions.EMBED_LINKS],
-            refresh: [Permissions.EMBED_LINKS],
-            split: [Permissions.EMBED_LINKS],
-            sub: [Permissions.EMBED_LINKS, Permissions.MANAGE_ROLES],
-            test: [Permissions.EMBED_LINKS],
-            text: [Permissions.EMBED_LINKS],
-            unsub: [Permissions.EMBED_LINKS, Permissions.MANAGE_ROLES],
-            webhook: [Permissions.EMBED_LINKS]
         }
     }
 
@@ -63,7 +41,7 @@ class Command {
             log.info('Message Inorer car provien du bot lui même')
             return true
         } else if (DiscordPromptRunner.isActiveChannel(channel.id)) {
-            log.info('Message Inorer car il y a un menu actif dans le chanel')
+            log.info('Message car il y a une discution en prompt dans ce chanel')
             return true
         }
         return false
