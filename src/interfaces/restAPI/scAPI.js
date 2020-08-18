@@ -3,6 +3,32 @@ const log = require("../../utils/logger");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 
+/**
+ * Permet de rechercher des vaisseau grasse à une liste de crithére prédéfinie
+ * @param {String} classification
+ * @param {number} lengthMin
+ * @param {number} lengthMax
+ * @param {number} crewMin
+ * @param {number} crewMax
+ * @param {number} page
+ * @return {Promise<void|*>}
+ */
+async function searchShipAtPage(classification,lengthMin,lengthMax,crewMin,crewMax,page){
+    try {
+        let url = `https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/auto/ships?classification=${classification}&length_min=${lengthMin}&length_max=${lengthMax}&crew_min=${crewMin}&crew_max=${crewMax}&page=${page}&max_page=6`
+        let apiJSON = await get(url)
+        apiJSON = JSON.parse(apiJSON)
+        if(apiJSON.data){
+            return apiJSON.data
+        }else {
+            log.warn('une ereur et survenue lors de la récupération des donnée de la scapi sur searchShip')
+            return null
+        }
+    } catch (e) {
+        return e
+    }
+}
+
 module.exports = {
     /**
      * Permet de récupérer un objet user depuis le handle
@@ -82,6 +108,10 @@ module.exports = {
             return e
         }
     },
+    /**
+     * Récupéree les stats de sc depuis l'api
+     * @return {Promise<void|*>}
+     */
     async getStarCitizenStats(){
         try {
             let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/eager/stats/`)
@@ -94,5 +124,19 @@ module.exports = {
         } catch (e) {
             return e
         }
+    },
+    async searchShip(classification,lengthMin,lengthMax,crewMin,crewMax){
+        let i = 1
+        let search
+        let pagesArray = new Array(0)
+        do {
+            console.log('ici')
+            search = await searchShipAtPage(classification, lengthMin, lengthMax, crewMin, crewMax, i)
+            pagesArray.push(search)
+            console.log(i)
+            i = i+1
+        } while (search.length!==0)
+        pagesArray.pop()
+        return pagesArray
     }
 }
