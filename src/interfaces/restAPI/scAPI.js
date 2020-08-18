@@ -1,5 +1,5 @@
-const get = require('../../util/xhrRequest')
-const log = require("../../util/logger");
+const get = require('../../utils/xhrRequest')
+const log = require("../../utils/logger");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 

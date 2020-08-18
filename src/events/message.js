@@ -1,4 +1,4 @@
-const log = require('../util/logger')
+const log = require('../utils/logger')
 const Command = require('../structs/Command')
 
 /**

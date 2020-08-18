@@ -1,4 +1,4 @@
-const db = require('../../util/PostgresHelper');
+const db = require('../../utils/PostgresHelper');
 const User = require('../../models/User')
 
 module.exports = {

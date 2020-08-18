@@ -1,27 +1,8 @@
 require('dotenv').config()
 const Discord = require('discord.js')
-const log = require('../util/logger')
-const listeners = require('../util/listeners')
+const log = require('../utils/logger')
+const listeners = require('../utils/listeners')
 const select = require('../interfaces/database/select')
-
-/**
- * @type {import('discord.js').ClientOptions}
- */
-const CLIENT_OPTIONS = {
-    /**
-     * Permet d'avoirs un cach sur les réaction du bot
-     * Cela permet de récupérer 10 evenement de réaction sur un message
-     * aprés sa les event de réaction ne serons plus récupérer
-     */
-    messageCacheMaxSize: 10,
-    ws: {
-        intents: [
-            'GUILDS',
-            'GUILD_MESSAGES',
-            'GUILD_MESSAGE_REACTIONS'
-        ]
-    }
-}
 
 
 class Client {
@@ -34,7 +15,8 @@ class Client {
             return log.warn('Pas possible de se connecter le bot et déjà connecter')
         }
         try {
-            const client = new Discord.Client(CLIENT_OPTIONS)
+            const client = new Discord.Client()
+
             await client.login(process.env.TOKEN)
             this.bot = client
         }catch (err) {

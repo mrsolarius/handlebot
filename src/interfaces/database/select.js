@@ -1,5 +1,5 @@
-const log = require("../../util/logger");
-const db = require("../../util/PostgresHelper");
+const log = require("../../utils/logger");
+const db = require("../../utils/PostgresHelper");
 //const User = require("../../models/User");
 //const Organization = require("../../models/Organization")
 
