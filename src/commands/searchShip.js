@@ -21,16 +21,11 @@ askCrewMin.addChild(askCrewMax)
  * @return {Promise<void>}
  */
 module.exports = async (message) => {
-
-
     const runner = new DiscordPromptRunner(message.author)
-
-
     console.log('Running prompt')
     try {
         const data = await runner.run(askClassification, message.channel)
         let waitMessage = await message.channel.send("⌛ **Votre recherche est en cour de traitement**")
-        console.log('ici')
         try {
             let searchData = await searchShip(data.Type, data.LengthMin, data.LengthMax, data.CrewMin, data.CrewMax)
             await waitMessage.delete()
