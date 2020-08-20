@@ -167,5 +167,22 @@ module.exports = {
             returnedLang.push(lang.langID)
         }
         return returnedLang
+    },
+    async getShips(searchString){
+        let shipsData = await db.query(
+    `SELECT *
+            from ship
+            WHERE SIMILARITY(slug,$1)>0.4
+            order by ship.name`,[searchString.replace(' ','-')]
+        )
+        let shipsArray = []
+        for (let shipData of shipsData.rows) {
+            let manufactureData = await db.query(`select * from manufacture where "manufacturerCode" = $1`,[shipData.manufacturerCode])
+            let ship = {}
+            ship = shipData
+            ship.manufacture = manufactureData.rows[0]
+            shipsArray.push(ship)
+        }
+        return shipsArray
     }
 }
