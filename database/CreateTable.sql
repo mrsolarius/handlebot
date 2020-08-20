@@ -56,3 +56,51 @@ create table speak
     constraint fk_user_speak foreign key ("userID") references users ("userID") ON DELETE CASCADE,
     constraint fk_lang_speak foreign key ("langID") references lang ("langID")
 );
+
+create table manufacture
+(
+    "manufacturerCode" varchar(10) unique not null,
+    "name" varchar(50),
+    "description" varchar(1024),
+    "knownFor" varchar(256),
+    "logoURL" varchar(256),
+    constraint pk_manufacture primary key ("manufacturerCode")
+);
+
+create table ship
+(
+    "slug" varchar(50) unique not null,
+    "manufacturerCode" varchar(10) not null,
+    "name" varchar(50),
+    "type" varchar(30),
+    "focus" varchar(50),
+    "description" varchar(1024),
+    "beam" real,
+    "height" real,
+    "length" real,
+    "mass" integer,
+    "size" varchar(20),
+    "cargoCapacity" integer,
+    "maxCrew" integer,
+    "minCrew" integer,
+    "afterBurnerSpeed" integer,
+    "scmSpeed" integer,
+    "pitchMax" real,
+    "yawMax" real,
+    "rollMax" real,
+    "xAxisAcceleration" real,
+    "yAxisAcceleration" real,
+    "zAxisAcceleration" real,
+    "price" money,
+    "inGamePrice" money,
+    "productionStatus" varchar(50),
+    "componentJson" json,
+    "lastModified" timestamp,
+    "url" varchar(256),
+    "fleetChartImage" varchar(256),
+    "bannerImage" varchar(256),
+    constraint pk_ship primary key (slug),
+    constraint fk_ship_manufacturer FOREIGN KEY ("manufacturerCode") references manufacture("manufacturerCode")
+);
+
+CREATE EXTENSION pg_trgm;
