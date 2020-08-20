@@ -138,5 +138,11 @@ module.exports = {
         } while (search.length!==0)
         pagesArray.pop()
         return pagesArray
+    },
+    async getShip(name){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/ships/?name=${name}`)
+        apiJSON = JSON.parse(apiJSON)
+        if(apiJSON.data)
+            return apiJSON.data[0]
     }
 }
