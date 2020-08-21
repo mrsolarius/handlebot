@@ -1,5 +1,10 @@
 const {MessageEmbed} = require('discord.js')
 
+/**
+ *
+ * @param {import('discord.js').Message} message
+ * @return {Promise<void>}
+ */
 module.exports = async (message) =>  {
     let embed = new MessageEmbed();
     embed.setColor('#1681a5');
