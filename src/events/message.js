@@ -1,5 +1,6 @@
 const log = require('../utils/logger')
 const Command = require('../structs/Command')
+const Discord = require('discord.js')
 
 /**
  * Handle discord messages from ws
