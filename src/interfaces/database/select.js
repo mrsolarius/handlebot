@@ -184,5 +184,11 @@ module.exports = {
             shipsArray.push(ship)
         }
         return shipsArray
+    },
+    async countHandle(){
+        let data = await db.query(`
+            SELECT count(*) 
+            FROM USERS`);
+        return parseInt(data.rows[0].count,10)
     }
 }
