@@ -4,7 +4,6 @@ const askShip = require('./askShip')
 
 module.exports = async (message,shipArray) => {
     const runner = new DiscordPromptRunner(message.author)
-    console.log('Running prompt')
     try {
         return {ship} = await runner.run(askShip(shipArray), message.channel)
     } catch (err) {

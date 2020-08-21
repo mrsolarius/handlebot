@@ -141,7 +141,6 @@ class Command {
 /**
  * Si les commande on déjà était récupérer et insizialisée
  */
-console.log('ici')
 Command.initialized = false
 Command.initialize()
 /**
