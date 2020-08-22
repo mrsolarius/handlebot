@@ -190,5 +190,17 @@ module.exports = {
             SELECT count(*) 
             FROM USERS`);
         return parseInt(data.rows[0].count,10)
+    },
+    async getGuildPrefix(guildID){
+        let data = await db.query(`
+            SELECT prefix 
+            FROM server
+            where "guildID" = $1
+        `,[guildID])
+        if (data.rowCount===0){
+            return false
+        }else {
+            return data.rows[0].prefix
+        }
     }
 }
