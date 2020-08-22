@@ -12,7 +12,7 @@ async function handler (message) {
         return
     }
     console.log(message.content);
-    const command = Command.tryGetCommand(message)
+    const command = await Command.tryGetCommand(message)
     if (!command) {
         return log.warn('Aucune commande valide de trouver')
     }
