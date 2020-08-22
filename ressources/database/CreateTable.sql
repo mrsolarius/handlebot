@@ -2,6 +2,7 @@ create table lang
 (
     "langID" serial,
     "lang"   varchar(20),
+    "langISO" char(2)
     constraint pk_lang primary key ("langID")
 );
 
