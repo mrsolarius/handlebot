@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 const { DiscordPromptRunner } = require('discord.js-prompts')
 const log = require('../utils/logger')
 const fsPromises = require('fs').promises
+const select = require('../interfaces/database/select')
 
 class Command {
 
@@ -68,12 +69,13 @@ class Command {
      * @param {import('discord.js').Message} message
      * @returns Command
      */
-    static tryGetCommand (message) {
-        const { guild } = message
-        /**
-         * @todo faire un prefix par guild ici pour le récupérer ici
-         */
-        const prefix = process.env.PREFIX
+    static async tryGetCommand(message) {
+        const {guild} = message
+        let prefix = process.env.PREFIX
+        let guildPrefix = await select.getGuildPrefix(guild.id)
+        if (guildPrefix){
+            prefix = guildPrefix
+        }
         let name = this.parseForName(message.content, prefix)
         let command = this.get(name)
         log.warn(`Identification d'une commande ${name}`)
@@ -128,7 +130,7 @@ class Command {
      */
     async run (message) {
         const channelID = message.channel.id
-        //permet d'evister les conflie sur le lancement des commande
+        //permet d'evister les conflie sur le lancement des commande prompt
         DiscordPromptRunner.addActiveChannel(channelID)
         try {
             await this.func(message, this.name)
@@ -141,7 +143,6 @@ class Command {
 /**
  * Si les commande on déjà était récupérer et insizialisée
  */
-console.log('ici')
 Command.initialized = false
 Command.initialize()
 /**

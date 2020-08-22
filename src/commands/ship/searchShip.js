@@ -1,12 +1,12 @@
 const {Message} = require('discord.js')
 const {DiscordPrompt, Rejection, PromptNode, DiscordPromptRunner, MessageVisual, Errors} = require('discord.js-prompts')
-const {searchShip} = require('../interfaces/restAPI/scAPI')
-const sendSearchMessage = require('./ship/sendSearchResultMessage')
-const askClassification = require('./prompts/searchShip/askClassification')
-const askLengthMin = require('./prompts/searchShip/askLengthMin')
-const askLengthMax =require('./prompts/searchShip/askLengthMax')
-const askCrewMin = require('./prompts/searchShip/askCrewMin')
-const askCrewMax = require('./prompts/searchShip/askCrewMax')
+const {searchShip} = require('../../interfaces/restAPI/scAPI')
+const sendSearchMessage = require('./sendSearchResultMessage')
+const askClassification = require('../prompts/searchShip/askClassification')
+const askLengthMin = require('../prompts/searchShip/askLengthMin')
+const askLengthMax =require('../prompts/searchShip/askLengthMax')
+const askCrewMin = require('../prompts/searchShip/askCrewMin')
+const askCrewMax = require('../prompts/searchShip/askCrewMax')
 
 
 
@@ -22,7 +22,6 @@ askCrewMin.addChild(askCrewMax)
  */
 module.exports = async (message) => {
     const runner = new DiscordPromptRunner(message.author)
-    console.log('Running prompt')
     try {
         const data = await runner.run(askClassification, message.channel)
         let waitMessage = await message.channel.send("⌛ **Votre recherche est en cour de traitement**")

@@ -6,7 +6,8 @@ const fleetYard = require('../interfaces/restAPI/fleetYardsAPI')
 const rm = require('discord.js-reaction-menu');
 const askShipMain = require('./prompts/shipProposition/main')
 const displayShip = require('./ship/displayShip')
-
+const shipHelp = require('./ship/help')
+const searchShip = require('./ship/searchShip')
 /**
  *
  * @param {import('discord.js').Message} message
@@ -19,8 +20,11 @@ module.exports = async (message) => {
     }else{
         switch (contentArray[1]) {
             case 'help':
-
-                break
+                await shipHelp(message)
+                return null
+            case 'search':
+                await searchShip(message)
+                return null
             case 'update':
                 let msg = await message.channel.send('⏳ **Mise a jour des vaiseaux en cour veuillez pasienter**')
                 await updateShips().then(function () {

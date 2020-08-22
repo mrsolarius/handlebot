@@ -1,11 +1,22 @@
 const {Message} = require('discord.js')
 const {DiscordPrompt, Rejection, PromptNode, DiscordPromptRunner, MessageVisual, Errors} = require('discord.js-prompts')
-const askShip = require('./askShip')
+const askMessage = require('./askMessage')
+const askConfirmation = require('./askConfirmation')
 
-module.exports = async (message,shipArray) => {
+askMessage.addChild(askConfirmation)
+
+module.exports = async (message) =>{
     const runner = new DiscordPromptRunner(message.author)
     try {
-        return {ship} = await runner.run(askShip(shipArray), message.channel)
+        let sendMessage,send
+        do {
+            let data = await runner.run(askMessage, message.channel)
+            send = data.send
+            sendMessage = data.sendMessage
+            console.log(send)
+        }while (!send)
+        console.log(sendMessage)
+        return sendMessage
     } catch (err) {
         console.log(err)
         if (err instanceof Errors.UserInactivityError) {

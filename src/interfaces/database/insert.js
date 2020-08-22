@@ -84,5 +84,14 @@ module.exports = {
             ON CONFLICT (slug) DO UPDATE
             SET slug = $1,"manufacturerCode" = $2, name=$3, type=$4, focus=$5, description=$6, beam=$7, height=$8, length=$9, mass=$10, size=$11, "cargoCapacity"=$12, "maxCrew"=$13, "minCrew"=$14, "afterBurnerSpeed"=$15, "scmSpeed"=$16, "pitchMax"=$17, "yawMax"=$18, "rollMax"=$19, "xAxisAcceleration"=$20, "yAxisAcceleration"=$21, "zAxisAcceleration"=$22, price=$23, "inGamePrice"=$24, "productionStatus"=$25, "componentJson"=$26, "lastModified"=$27, url=$28, "fleetChartImage"=$29, "bannerImage"=$30`,
             [ship.slug,ship.manufacturerCode,ship.name,ship.type,ship.focus,ship.description,ship.beam,ship.height,ship.length,ship.mass,ship.size,ship.cargoCapacity,ship.maxCrew,ship.minCrew,ship.afterBurnerSpeed,ship.scmSpeed,ship.pitchMax,ship.yawMax,ship.rollMax,ship.xAxisAcceleration,ship.yAxisAcceleration,ship.zAxisAcceleration,ship.price,ship.inGamePrice,ship.productionStatus,ship.componentJson,ship.lastModified,ship.url,ship.fleetChartImage,ship.bannerImage])
+    },
+    async insertPrefix(serveurID,prefix){
+        await db.query(`
+            INSERT INTO server ("guildID",prefix)
+            values ($1,$2)
+            ON CONFLICT ("guildID") DO UPDATE 
+            SET "guildID"=$1,prefix=$2`,
+            [serveurID,prefix]
+        )
     }
 }

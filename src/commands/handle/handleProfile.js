@@ -24,10 +24,15 @@ module.exports = async (message, user) => {
     newMessage.setColor('#1681a5');
 
     if (user.discordID) {
-        let member = await message.guild.members.fetch(user.discordID)
-        let avatar = member.user.avatarURL({dynamic: true});
-        let tag = member.user.tag;
-        newMessage.setFooter(tag, avatar);
+        console.log(user.discordID)
+        let member = await message.client.users.fetch(user.discordID).catch(err=>{
+            console.log(err)
+        })
+        if (member) {
+            let avatar = member.avatarURL({dynamic: true});
+            let tag = member.tag;
+            newMessage.setFooter(tag, avatar);
+        }
     }
 
     newMessage.setTimestamp();
