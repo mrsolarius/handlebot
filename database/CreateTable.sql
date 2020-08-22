@@ -103,4 +103,12 @@ create table ship
     constraint fk_ship_manufacturer FOREIGN KEY ("manufacturerCode") references manufacture("manufacturerCode")
 );
 
+CREATE TABLE Server(
+    "guildID" varchar(18),
+    "prefix" varchar(5),
+    "name" varchar(100),
+    "memberCount" bigint,
+    constraint pk_guildID primary key ("guildID")
+);
+
 CREATE EXTENSION pg_trgm;
