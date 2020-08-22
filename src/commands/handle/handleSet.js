@@ -23,16 +23,15 @@ module.exports = async (message,handle) => {
                     await insert.insertOrganisation(await Organization.tryGetOrganizationFromSID(user.organizationSID))
                 }
                 await insert.insertUser(user)
-                return await message.channel.send("✅ **Votre handle à bien était associer `!handle`pour afficher votre profile**")
+                return await message.channel.send("✅ **Votre handle à bien était associé `!handle`pour afficher votre profil**")
             } else {
-                await message.channel.send("⚠ **Attention, le handle indiquer n'existe pas**")
+                await message.channel.send("⚠ **Attention, le handle indiqué n'existe pas**")
             }
         } else {
-            console.log("là")
             user = await User.tryGetUserFromHandle(handle)
             return await message.channel.send("⚠ **Attention, le handle indiquer et déjà pris par <@" + user.discordID + ">**")
         }
     }else {
-        return await message.channel.send("⚠ **Attention, votre handle et déjà associer.\nVeuillez executer la commande `!handle unset` avant de vous associer à un autre handle**")
+        return await message.channel.send("⚠ **Attention, votre handle et déjà associer.\nVeuillez exécuter la commande `!handle unset` avant de vous associer à un autre handle**")
     }
 }

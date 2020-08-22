@@ -19,7 +19,7 @@ module.exports = async (message) => {
         if (user) {
             return Promise.all([handleProfile(message, user),update.updateUser(user)])
         } else {
-            return await message.channel.send("⚠ **Vous n'avez pas de handle associer, veuillez executer la commande suivante : `!handle set votrehandele` pour vous en associer un **")
+            return await message.channel.send("⚠ **Vous n'avez pas de handle associer, veuillez exécuter la commande suivante : `!handle set votrehandele` pour vous en associer un **")
         }
     }
     if (contentArray.length>=2) {
@@ -28,12 +28,12 @@ module.exports = async (message) => {
                 if (contentArray[2]){
                     return await handleSet(message,contentArray[2])
                 }else {
-                    return await message.channel.send("⚠  **Votre commande doit indiquer un handle aprés le parmettre set**")
+                    return await message.channel.send("⚠  **Votre commande doit indiqué un handle après le paramètre set**")
                 }
                 break;
             case 'unset':
                 if (await select.isRegisterFromDiscordID(message.author.id)){
-                    return Promise.all([message.channel.send("✅ **Votre profile à bien été suprimer de la base de donnée**"),del.unset(message.author.id)])
+                    return Promise.all([message.channel.send("✅ **Votre profil à bien été supprimer de la base de données**"),del.unset(message.author.id)])
                 }else{
                     return await message.channel.send("✅ **Votre handle n'est déjà plus associer à votre compte discord**")
                 }
