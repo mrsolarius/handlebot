@@ -1,0 +1,9 @@
+{
+  "yes": "Oui",
+  "no": "Non",
+  "this_is_send_msg":"Voici le message que vous vous apréter à envoyer",
+  "does_suit_you": "Cela vous convient t-il",
+  "send_msg_all_admin": "Envera votre message à tous les admin utilisant le handleBot",
+  "ask_for_new_msg": "Vous demandera d'entrer à nouveau votre message",
+  "cancel_msg" : "Annulera l'envoie du message."
+}
