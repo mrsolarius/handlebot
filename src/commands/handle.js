@@ -9,9 +9,10 @@ const del = require('../interfaces/database/delete')
 
 /**
  * @param {import('discord.js').Message} message
+ * @param {Lang} lang
  * @returns {Promise<Message>|Promise<void>}
  */
-module.exports = async (message) => {
+module.exports = async (message,lang) => {
     //séparation des élément de la commande en tableau
     const contentArray = message.content.split(' ').map(item => item.trim())
     if (contentArray.length===1){

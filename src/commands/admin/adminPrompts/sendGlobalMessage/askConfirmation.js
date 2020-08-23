@@ -1,6 +1,6 @@
 const {DiscordPrompt, MessageVisual,PromptNode,Rejection} = require("discord.js-prompts");
 
-const askLengthVisual = async (data) => {
+const askConfirmationMsg = async (data) => {
     return new MessageVisual(
         "Voici le message que vous vous apréter à envoyer :\n```md\n"+data.sendMessage.replace(/`/g,"\` ")+"```\n" +
         "Cela vous convient t-il : \n" +
@@ -12,9 +12,9 @@ const askLengthVisual = async (data) => {
     )
 }
 
-const askLengthMin = new PromptNode(
+const askConfirmation = new PromptNode(
     new DiscordPrompt(
-        askLengthVisual,
+        askConfirmationMsg,
         async (m, data) => {
             let send
             switch (m.content.toLowerCase()) {
@@ -35,4 +35,4 @@ const askLengthMin = new PromptNode(
     )
 )
 
-module.exports = askLengthMin
+module.exports = askConfirmation
