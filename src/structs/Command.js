@@ -7,14 +7,6 @@ const select = require('../interfaces/database/select')
 
 class Command {
 
-    static get USER_PERMISSIONS () {
-        return {
-            sub: [],
-            unsub: [],
-            'sub.filters': []
-        }
-    }
-
     /**
      * @param {string} name - Command name
      * @param {function} func - Command function
@@ -71,6 +63,7 @@ class Command {
      */
     static async tryGetCommand(message) {
         const {guild} = message
+        message.guild.lang = process.env.LANG
         let prefix = process.env.PREFIX
         let guildPrefix = await select.getGuildPrefix(guild.id)
         if (guildPrefix){
