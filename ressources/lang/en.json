@@ -1,0 +1,10 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "ask_for_server_lang": "What language do you want to apply to your server?",
+  "ask_for_known_word": "Please enter a keyword from the list",
+  "lang_success_msg": "The Language of your server has been defined.",
+  "warm_for_inactivity": "Our conversation was stopped for inactivity",
+  "user_stop_prompt": "Heard, I'm ending our conversation",
+  "unknown_error": "An unknown error occurred"
+}

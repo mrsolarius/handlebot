@@ -202,5 +202,17 @@ module.exports = {
         }else {
             return data.rows[0].prefix
         }
+    },
+    async getGuildLang(guildID){
+        let data = await db.query(`
+            SELECT "langID" 
+            FROM server
+            where "guildID" = $1
+        `,[guildID])
+        if (data.rowCount===0){
+            return false
+        }else {
+            return data.rows[0].langID
+        }
     }
 }

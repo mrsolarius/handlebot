@@ -1,9 +1,10 @@
 {
   "yes": "Oui",
   "no": "Non",
-  "this_is_send_msg":"Voici le message que vous vous apréter à envoyer",
-  "does_suit_you": "Cela vous convient t-il",
-  "send_msg_all_admin": "Envera votre message à tous les admin utilisant le handleBot",
-  "ask_for_new_msg": "Vous demandera d'entrer à nouveau votre message",
-  "cancel_msg" : "Annulera l'envoie du message."
+  "ask_for_server_lang": "Quelle langue souhaitez vous apliquer à votre serveur ?",
+  "ask_for_known_word": "Veuillez indiquer un mot cles de la liste",
+  "lang_success_msg": "La Langue de votre serveur a bien était definie.",
+  "warm_for_inactivity": "Notre conversation a été stoppé pour inactivité",
+  "user_stop_prompt": "Entendu, je met fin à notre conversation",
+  "unknown_error": "Une erreur inconnue c'est produit"
 }
