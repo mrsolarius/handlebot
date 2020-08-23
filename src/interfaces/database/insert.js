@@ -93,5 +93,14 @@ module.exports = {
             SET "guildID"=$1,prefix=$2`,
             [serveurID,prefix]
         )
+    },
+    async insertLang(serveurID,langID){
+        await db.query(`
+            INSERT INTO server ("guildID","langID")
+            values ($1,$2)
+            ON CONFLICT ("guildID") DO UPDATE 
+            SET "guildID"=$1,"langID"=$2`,
+            [serveurID,langID]
+        )
     }
 }
