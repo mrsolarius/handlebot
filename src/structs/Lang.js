@@ -3,6 +3,7 @@ const path = require('path')
 const select = require('../interfaces/database/select')
 
 class Lang {
+    trad = require('../../ressources/lang/fr.json')
 
     constructor(langID,translation){
         this.langID = langID
