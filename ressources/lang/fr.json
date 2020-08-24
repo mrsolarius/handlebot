@@ -6,5 +6,21 @@
   "lang_success_msg": "La Langue de votre serveur a bien était definie.",
   "warm_for_inactivity": "Notre conversation a été stoppé pour inactivité",
   "user_stop_prompt": "Entendu, je met fin à notre conversation",
-  "unknown_error": "Une erreur inconnue c'est produit"
+  "unknown_error": "Une erreur inconnue c'est produit",
+  "err_you_not_in_org": "Vous n'êtes dans aucune Organisation",
+  "your_handle_cmd": "votrehandele",
+  "handle_not_associate_1": "Vous n'avez pas de handle associer, veuillez executer la commande suivante",
+  "handle_not_associate_2": "pour vous en associer un",
+  "member_no_orga": "Le membre mentionée n'est dans aucune Organisation",
+  "member_no_handle": "Le membre mentionée n'a pas de handle associer.",
+  "sid_not_exist": "Le SID de l'organisation indiquer n'existe pas.",
+  "member": "Membre",
+  "archetype": "Archétype",
+  "commitment": "Engagement",
+  "recruiter": "Recruteur",
+  "role_play": "Roleplay",
+  "language": "Langue",
+  "description": "Description"
+
+
 }
