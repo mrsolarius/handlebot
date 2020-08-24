@@ -17,7 +17,7 @@ module.exports = async (message,lang) => {
         let user = await User.tryGetUserFromDiscord(message.author.id)
         if (user) {
             if (user.organizationSID){
-                return await CorpPage(message,await Organization.tryGetOrganizationFromSID(user.organizationSID))
+                return await CorpPage(message,await Organization.tryGetOrganizationFromSID(user.organizationSID),lang)
             }else {
                 return await message.channel.send(`⚠ **${lang.trad.err_you_not_in_org}**`)
             }
@@ -27,14 +27,14 @@ module.exports = async (message,lang) => {
     }
     if (contentArray.length >= 2){
         if (contentArray[1]==="help"){
-            return await CorpHelp(message)
+            return await CorpHelp(message,lang,prefix)
         }
         if (message.mentions.members.array().length === 1){
             let user = await User.tryGetUserFromDiscord(message.mentions.members.first().id)
             if (user) {
                 if (user.organizationSID){
                     let organization = await Organization.tryGetOrganizationFromSID(user.organizationSID)
-                    return await CorpPage(message,organization)
+                    return await CorpPage(message,organization,lang)
                 }else {
                     return await message.channel.send(`⚠ **${lang.trad.member_no_orga}**`)
                 }

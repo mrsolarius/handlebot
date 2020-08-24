@@ -1,13 +1,14 @@
 const Discord = require('discord.js')
 
 module.exports = async (message, organization,lang) => {
+    console.log(lang)
     let newMessage = new Discord.MessageEmbed();
     newMessage.setColor('#1681a5');
     newMessage.setTitle(organization.name);
     newMessage.setThumbnail(organization.logo);
     newMessage.setURL(`https://robertsspaceindustries.com/orgs/${organization.sid}`);
     newMessage.setImage(organization.banner);
-    newMessage.setDescription(organization.sid);
+    newMessage.setDescription(organization.sid?organization.sid:organization.organizationSID);
     newMessage.addField(lang.trad.member, organization.memberCount, true);
     newMessage.addField(lang.trad.archetype, organization.archetype, true);
     newMessage.addField(lang.trad.commitment, organization.commitment, true);
