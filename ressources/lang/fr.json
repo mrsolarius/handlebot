@@ -20,7 +20,20 @@
   "recruiter": "Recruteur",
   "role_play": "Roleplay",
   "language": "Langue",
-  "description": "Description"
+  "description": "Description",
+  "help": "Aide",
+  "note": "Note",
+  "by": "par",
+  "click_here": "Cliquer ici",
+  "corp_help_info": "Cette commande vous permet d'afficher les information d'une corporation.",
+  "corp_help_display_msg": "Affiche les informations de votre corporation",
+  "corp_help_display_org_member": "Permet d'afficher les informations de la corporation du membre",
+  "corp_help_display_org": "Permet d'afficher les informations de la corporation choisie",
+  "can_replace": "Vous pouvez remplacer",
+  "if_want": "si vous le souhaitez",
+  "need_more_help": "Vous avez encore besoin d'aide ?",
+  "no_panic": "Pas de panique",
+  "to_join_support": "pour rejoindre le discord officiel du handlebot."
 
 
 }
