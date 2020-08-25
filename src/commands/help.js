@@ -11,7 +11,7 @@ module.exports = async (message,lang) => {
 
     aide.setColor('#1681a5');
     aide.setTitle(lang.trad.help+" !");
-    aide.setDescription(`${lang.trad.bot_help_description}\n\n${lang.trad.find_bug_or_need_help} [${lang.trad.click_here}](https://discord.gg/JhwbdNG)${lang.trad.to_join_support}\n\n${lang.trad.to_invite_bot} [${lang.trad.click_here}](https://discordapp.com/oauth2/authorize?client_id=397402496676659201&scope=bot&permissions=27712)`);
+    aide.setDescription(`${lang.trad.bot_help_description}\n\n${lang.trad.find_bug_or_need_help} [${lang.trad.click_here}](https://discord.gg/JhwbdNG) ${lang.trad.to_join_support}\n\n${lang.trad.to_invite_bot} [${lang.trad.click_here}](https://discordapp.com/oauth2/authorize?client_id=397402496676659201&scope=bot&permissions=27712)`);
 
     starCitizen.setColor('#42EEF4');
     starCitizen.setTitle(":rocket:Star Citizen");
