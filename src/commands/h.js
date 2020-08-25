@@ -5,6 +5,5 @@ const handle = require('./handle')
  * @returns {Promise<void>}
  */
 module.exports = async (message,lang) => {
-    console.log(lang)
     await handle(message,lang)
 }

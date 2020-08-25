@@ -1,20 +1,22 @@
 const Discord = require('discord.js')
 
 /**
+ * @param {Lang} lang
  * @param {import('discord.js').Message} message
+ * @param prefix
  * @returns {Promise<void>}
  */
-module.exports = async (message) => {
+module.exports = async (message,lang,prefix) => {
     let newMessage = new Discord.MessageEmbed();
     newMessage.setColor('#1681a5');
-    newMessage.setTitle("Aide !");
-    newMessage.setDescription("Cette commande est une sorte de page blanche des Handles sur discord. Elle vous permet de retrouver l'Handle d'une personne à partir de son discord et inversement.Elle permet aussi par le même système d'afficher le profil RSI d'un membre.");
-    newMessage.addField("!handle info","```css\nVous ne savez pas ce qu'est le handle alors taper cette commande.```",true);
-    newMessage.addField("!handle set *`VotreHandle`*","```css\nPermet de définir votre Handle```",true);
-    newMessage.addField("!handle unset","```css\nSupprime votre handle associé```",true);
-    newMessage.addField("!handle","```css\nAffiche votre profile RSI```",true);
-    newMessage.addField("!handle *`@UnMembre`*","```css\nPermet de voir le profil du membre\n```",true);
-    newMessage.addField("!handle *`UnHandle`*","```css\nPermet de voir le profil du handle choisie```",true);
-    newMessage.addField("Note !","Vous pouvez remplacer `!handle` par `!h` si vous le souhaitez.\n\nVous avez encore besoin d'aide ?\nPas de panique [cliquer ici](https://discordapp.com/invite/JhwbdNG) pour rejoindre le discord officiel du handlebot",false);
+    newMessage.setTitle(lang.trad.help+" !");
+    newMessage.setDescription(lang.trad.handle_help_description);
+    newMessage.addField(`${prefix}handle info"`,`\`\`\`css${lang.trad.dont_know_handle}\n\`\`\``,true);
+    newMessage.addField(`${prefix}handle set *\`${lang.trad.your_handle}\`*`,`\`\`\`css\n${lang.trad.can_define_handle}\`\`\``,true);
+    newMessage.addField(`${prefix}handle unset`,`\`\`\`css\n${lang.trad.delete_handle}\`\`\``,true);
+    newMessage.addField(`${prefix}handle`,`\`\`\`css\n${lang.trad.display_profile}\`\`\``,true);
+    newMessage.addField(`${prefix}handle *\`@${lang.trad.member}\`*`,`\`\`\`css\n${lang.trad.display_member_profile}\n\`\`\``,true);
+    newMessage.addField(`${prefix}handle *\`${lang.trad.handle}\`*`,`\`\`\`css${lang.trad.display_handle_profile}\n\`\`\``,true);
+    newMessage.addField(`${lang.trad.note} !`,`${lang.trad.can_replace} \`${prefix}handle\` ${lang.trad.by} \`${prefix}h\` ${lang.trad.if_want}\n\n${lang.trad.need_more_help}\n${lang.trad.no_panic} [${lang.trad.click_here}](https://discordapp.com/invite/JhwbdNG) ${lang.trad.to_join_support}`,false);
     await message.channel.send(newMessage);
-};
+}
