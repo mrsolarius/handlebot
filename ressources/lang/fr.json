@@ -130,5 +130,10 @@
   "weapon": "Armement",
   "missile": "Missile",
   "turrets": "Tourelle",
-  "utility_items": "Item Utile"
+  "utility_items": "Item Utile",
+  "status_of_sc": "Statut de Star Citizen",
+  "fan": "Fan",
+  "ship_sold": "Vaiseau vendu",
+  "money_raised": "Argent récolté",
+  "live_version": "Version Live"
 }
