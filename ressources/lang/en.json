@@ -3,6 +3,7 @@
   "no": "No",
   "ask_for_server_lang": "What language do you want to use on your server?",
   "ask_for_known_word": "Please indicate a keyword from the list",
+  "ask for known number": "Indicates a number corresponding to one of the propositions",
   "lang_success_msg": "The Language of your server has been defined.",
   "warm_for_inactivity": "Our conversation has been stopped for inactivity",
   "user_stop_prompt": "Heard, I'm ending our conversation",
@@ -34,6 +35,7 @@
   "org": "Organization",
   "rank": "Rank",
   "biographies": "Bio",
+  "info": "Info",
   "lang_speak": "Spoken language (s)",
   "click_here": "Click here",
   "corp_help_info": "This command allows you to display the information of a corporation.",
@@ -134,5 +136,9 @@
   "fan": "Fan",
   "ship_sold": "Ship sold",
   "money_raised": "Money collected",
-  "live_version": "Live version"
+  "live_version": "Live version",
+  "witch_vehicle_you_want": "What vehicle are you looking for exactly?",
+  "number_proposition": "Indicate the number in front of the proposal that suits you",
+  "warm_number": "Indicates a number corresponding to one of the propositions",
+  "warm_number_in_list": "Indicates a number found in the list"
 }

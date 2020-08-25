@@ -40,7 +40,7 @@ module.exports = async (message,lang) => {
                     if (ships.length===1){
                         return displayShip(message,ships[0],lang)
                     }else {
-                        let data = await askShipMain(message,ships)
+                        let data = await askShipMain(message,ships,lang)
                         return displayShip(message,ships[data.ship],lang)
                     }
                 }else {

@@ -3,6 +3,7 @@
   "no": "Non",
   "ask_for_server_lang": "Quelle langue souhaitez vous apliquer à votre serveur ?",
   "ask_for_known_word": "Veuillez indiquer un mot cles de la liste",
+  "ask_for_known_number": "Indique un chiffre corespondant à une des proposition",
   "lang_success_msg": "La Langue de votre serveur a bien était definie.",
   "warm_for_inactivity": "Notre conversation a été stoppé pour inactivité",
   "user_stop_prompt": "Entendu, je met fin à notre conversation",
@@ -135,5 +136,9 @@
   "fan": "Fan",
   "ship_sold": "Vaiseau vendu",
   "money_raised": "Argent récolté",
-  "live_version": "Version Live"
+  "live_version": "Version Live",
+  "witch_vehicle_you_want": "Quel vehicle recherche tu exactement ?",
+  "number_proposition": "Indique le nombre devant la proposition qui te convien",
+  "warm_number": "Indique un chiffre corespondant à une des proposition",
+  "warm_number_in_list": "Indique un chiffre présent dans la list"
 }
