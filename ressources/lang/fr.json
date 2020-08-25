@@ -74,5 +74,9 @@
   "handle_help": "Affiche l'aide de toutes les commandes en rapport avec le handle.",
   "corp_help": "Affiche l'aide de toutes les commandes permettant d'afficher des informations sur les corporation",
   "ship_help": "Affiche l'aide de toutes les commandes en rapport avec le vaisseau spatial.",
-  "sc_stat_help": "Affiche les statistiques actuelles de Star Citizen"
+  "sc_stat_help": "Affiche les statistiques actuelles de Star Citizen",
+  "need_prefix": "Veuillez indiqué un prefix",
+  "prefix_no_more_3": "Votre Prefix ne doit pas faire plus de 3 charachter",
+  "prefix_has_be_update": "Le prefix à bien était modifier !",
+  "cmd_need_start_with": "Vos commande doive maintenant commencée par"
 }
