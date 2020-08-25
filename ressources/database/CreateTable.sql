@@ -105,7 +105,7 @@ create table ship
 
 CREATE TABLE Server(
     "guildID" varchar(18),
-    "prefix" varchar(5),
+    "prefix" varchar(3),
     "langID" char(2),
     "name" varchar(100),
     "memberCount" bigint,
