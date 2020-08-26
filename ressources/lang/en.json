@@ -140,5 +140,12 @@
   "witch_vehicle_you_want": "What vehicle are you looking for exactly?",
   "number_proposition": "Indicate the number in front of the proposal that suits you",
   "warm_number": "Indicates a number corresponding to one of the propositions",
-  "warm_number_in_list": "Indicates a number found in the list"
+  "warm_number_in_list": "Indicates a number found in the list",
+  "servers": "Servers",
+  "user_number": "Number of users",
+  "user_number_in_db": "Number of users to register",
+  "ping": "Ping",
+  "ram_use": "RAM Used",
+  "uptime": "Uptime",
+  "start": "Start"
 }
