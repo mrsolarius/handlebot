@@ -2,32 +2,32 @@ const {DiscordPrompt, MessageVisual,PromptNode,Rejection} = require("discord.js-
 
 const parmArray = ['combat' , 'transport' , 'exploration' , 'industrial' , 'support' , 'competition' , 'ground' , 'multi']
 
-const askClassification = new PromptNode(
-    new DiscordPrompt(
-        new MessageVisual(
-            "Quelle type de vehicle recherche tu ?\n" +
-            "_Indique le nombre devant la proposition qui te plais_\n" +
-            "_**1**_ - **`Combat`** parfait si tu veut faire TOUS PETER !\n" +
-            "_**2**_ - **`Transport`** pour etancher ta soif d'ouisifter et de richesse\n" +
-            "_**3**_ - **`Exploration`** pour les plus curieux d'entre vous\n" +
-            "_**4**_ - **`Industriel`** si tu souhaite que ton vaisseau devienne ton lieux de travail\n" +
-            "_**5**_ - **`Support`** si tu souahite aider une flote plus grande\n" +
-            "_**6**_ - **`Course`** si tu compte devenir un ass du pilotage\n" +
-            "_**7**_ - **`Sol`** pour facilement arpenter le sol des planette et des lune\n" +
-            "_**8**_ - **`Multicrew`** pour jouer avec tes amis"
-        ),
-        async (m, data) => {
-            let Type;
-            const number = parseInt(m.content, 10)
-            if (Number.isNaN(number)) throw new Rejection('Indique un chiffre corespondant à une des proposition ')
-            if (number < 1 || number > 8) throw new Rejection(`Indique un chiffre présent dans la list`)
-            Type = parmArray[number-1]
-            return {
-                ...data,
-                Type,
+module.exports = function (lang) {
+    return new PromptNode(
+        new DiscordPrompt(
+            new MessageVisual(
+                lang.trad.witch_ship_do_you_want+"\n" +
+                "_"+lang.trad.indicate_number_before_proposition+"_\n" +
+                "_**1**_ - **`"+lang.trad.combat+"`** "+lang.trad.if_you_want_explode_all+"\n" +
+                "_**2**_ - **`"+lang.trad.transportation+"`** "+lang.trad.to_be_rich+"\n" +
+                "_**3**_ - **`"+lang.trad.exploration+"`** "+lang.trad.to_be_curious+"\n" +
+                "_**4**_ - **`"+lang.trad.industrial+"`** "+lang.trad.to_get_work+"\n" +
+                "_**5**_ - **`"+lang.trad.support+"`** "+lang.trad.to_help_big_fleet+"\n" +
+                "_**6**_ - **`"+lang.trad.race+"`** "+lang.trad.to_be_racer+"\n" +
+                "_**7**_ - **`"+lang.trad.ground+"`** "+lang.trad.to_be_roll_ground+"\n" +
+                "_**8**_ - **`"+lang.trad.multicrew+"`** "+lang.trad.to_play_with_friend
+            ),
+            async (m, data) => {
+                let Type;
+                const number = parseInt(m.content, 10)
+                if (Number.isNaN(number)) throw new Rejection(lang.trad.warm_number)
+                if (number < 1 || number > 8) throw new Rejection(lang.trad.warm_number_in_list)
+                Type = parmArray[number - 1]
+                return {
+                    ...data,
+                    Type,
+                }
             }
-        }
+        )
     )
-)
-
-module.exports = askClassification
+}
