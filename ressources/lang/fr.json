@@ -140,5 +140,12 @@
   "witch_vehicle_you_want": "Quel vehicle recherche tu exactement ?",
   "number_proposition": "Indique le nombre devant la proposition qui te convien",
   "warm_number": "Indique un chiffre corespondant à une des proposition",
-  "warm_number_in_list": "Indique un chiffre présent dans la list"
+  "warm_number_in_list": "Indique un chiffre présent dans la list",
+  "servers": "Serveurs",
+  "user_number": "Nombre d'utilisateur",
+  "user_number_in_db": "Nombre d'utilisateur enregistrer",
+  "ping": "Ping",
+  "ram_use": "RAM Utilisé",
+  "uptime": "Disponibilité",
+  "start": "Démarrer"
 }
