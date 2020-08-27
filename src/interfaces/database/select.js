@@ -209,10 +209,15 @@ module.exports = {
             FROM server
             where "guildID" = $1
         `,[guildID])
-        if (data.rowCount===0){
-            return false
+        if (data.rows.length===0){
+            return process.env.PREFIX
         }else {
-            return data.rows[0].langID
+            if(data.rows[0].prefix){
+                return data.rows[0].prefix
+            }
+            else{
+                return process.env.PREFIX
+            }
         }
     }
 }
