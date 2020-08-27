@@ -22,7 +22,8 @@
   "author": "Louis VOLAT",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/mrsolarius/handlebot/issues"
+    "url": "https://github.com/mrsolarius/handlebot/issues",
+    "email": "louis.volat@gmail.com"
   },
   "homepage": "https://github.com/mrsolarius/handlebot#readme"
 }
