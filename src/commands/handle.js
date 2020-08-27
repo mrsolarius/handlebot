@@ -9,9 +9,11 @@ const del = require('../interfaces/database/delete')
 
 /**
  * @param {import('discord.js').Message} message
+ * @param {Lang} lang
  * @returns {Promise<Message>|Promise<void>}
  */
-module.exports = async (message) => {
+module.exports = async (message,lang) => {
+    const prefix = await select.getGuildPrefix(message.guild.id)
     //séparation des élément de la commande en tableau
     const contentArray = message.content.split(' ').map(item => item.trim())
     if (contentArray.length===1){
@@ -19,30 +21,30 @@ module.exports = async (message) => {
         if (user) {
             return Promise.all([handleProfile(message, user),update.updateUser(user)])
         } else {
-            return await message.channel.send("⚠ **Vous n'avez pas de handle associer, veuillez exécuter la commande suivante : `!handle set votrehandele` pour vous en associer un **")
+            return await message.channel.send(`⚠ **${lang.trad.handle_not_associate_1} : \`${prefix}handle set ${lang.trad.your_handle_cmd}\` ${lang.trad.handle_not_associate_2} **`)
         }
     }
     if (contentArray.length>=2) {
         switch (contentArray[1]) {
             case 'set':
                 if (contentArray[2]){
-                    return await handleSet(message,contentArray[2])
+                    return await handleSet(message,contentArray[2],lang,prefix)
                 }else {
-                    return await message.channel.send("⚠  **Votre commande doit indiqué un handle après le paramètre set**")
+                    return await message.channel.send(`⚠  **${lang.trad.need_handle}**`)
                 }
                 break;
             case 'unset':
                 if (await select.isRegisterFromDiscordID(message.author.id)){
-                    return Promise.all([message.channel.send("✅ **Votre profil à bien été supprimer de la base de données**"),del.unset(message.author.id)])
+                    return Promise.all([message.channel.send(`✅ **${lang.trad.handle_rm_success}**`),del.unset(message.author.id)])
                 }else{
-                    return await message.channel.send("✅ **Votre handle n'est déjà plus associer à votre compte discord**")
+                    return await message.channel.send(`✅ **${lang.trad.handle_not_associate_unset}**`)
                 }
                 break;
             case 'info':
-                return await handleInfo(message)
+                return await handleInfo(message,lang)
                 break;
             case 'help':
-                return await handleHelp(message)
+                return await handleHelp(message,lang,prefix)
                 break;
             default:
                 if (contentArray.length===2) {
@@ -51,19 +53,19 @@ module.exports = async (message) => {
                         if (user) {
                             return Promise.all([handleProfile(message, user),update.updateUser(user)])
                         } else {
-                            return await message.channel.send("⚠ **Le membre mentioné na pas de handle associer**")
+                            return await message.channel.send(`⚠ **${lang.trad.member_no_handle}**`)
                         }
                     } else {
                         let user = await User.tryGetUserFromHandle(contentArray[1])
                         if (user) {
                             return Promise.all([handleProfile(message, user),update.updateUser(user)])
                         } else {
-                            return await message.channel.send("⚠  **Le Handle indiqué n'a pas été trouver**")
+                            return await message.channel.send(`⚠ **${lang.trad.handle_not_exist}**`)
                         }
                     }
                 }
                 break;
         }
     }
-    await message.channel.send("⚠ **Votre comande est invalide `!handle help` pour plus d'information**")
+    await message.channel.send(`⚠ **${lang.trad.unvalidated_cmd} \`${prefix}handle help\` ${lang.trad.for_more_info}**`)
 }

@@ -11,39 +11,40 @@ const searchShip = require('./ship/searchShip')
 /**
  *
  * @param {import('discord.js').Message} message
+ * @param {Lang} lang
  * @return {Promise<Message>}
  */
-module.exports = async (message) => {
+module.exports = async (message,lang) => {
     const contentArray = message.content.split(' ').map(item => item.trim())
     if (contentArray.length===1){
-        return message.channel.send("⚠ **Veuillez indiquer un nom de vaisseau**")
+        return message.channel.send("⚠ **"+lang.trad.need_ship_name+"**")
     }else{
         switch (contentArray[1]) {
             case 'help':
-                await shipHelp(message)
+                await shipHelp(message,lang)
                 return null
             case 'search':
-                await searchShip(message)
+                await searchShip(message,lang)
                 return null
             case 'update':
-                let msg = await message.channel.send('⏳ **Mise a jour des vaiseaux en cour veuillez pasienter**')
+                let msg = await message.channel.send('⏳ **'+lang.trad.update_ship_wait+'**')
                 await updateShips().then(function () {
-                    msg.edit('✅ **la liste des vaisseau à bien était mise à jour**')
+                    msg.edit('✅ **'+lang.trad.ship_list_update_success+'**')
                 }).catch(function () {
-                    msg.edit(`❌ **Une erreur inatendu c'est produit la liste n'a pas put être mise à jour**`)
+                    msg.edit(`❌ **${lang.trad.unknown_error}**`)
                 })
                 return null
             default:
                 let ships = await getShips(contentArray.slice(1,contentArray.length).join('_'))
                 if (ships.length!==0){
                     if (ships.length===1){
-                        displayShip(message,ships[0])
+                        return displayShip(message,ships[0],lang)
                     }else {
-                        let data = await askShipMain(message,ships)
-                        return displayShip(message,ships[data.ship])
+                        let data = await askShipMain(message,ships,lang)
+                        return displayShip(message,ships[data.ship],lang)
                     }
                 }else {
-                    return message.channel.send("⚠ **Aucun vaisseau ce nommant `"+ contentArray.slice(1,contentArray.length).join(' ')+"` n'a était trouver**")
+                    return message.channel.send("⚠ **"+lang.trad.no_ship_with_name+" `"+ contentArray.slice(1,contentArray.length).join(' ')+"` "+lang.trad.as_been_found+"**")
                 }
         }
     }

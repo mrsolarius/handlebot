@@ -7,20 +7,20 @@ const User = require('./../../models/User')
  * @param {User} user
  * @return {Promise<void>}
  */
-module.exports = async (message, user) => {
+module.exports = async (message, user,lang) => {
     let newMessage = new Discord.MessageEmbed();
-    newMessage.setTitle("Profil RSI");
+    newMessage.setTitle(lang.trad.rsi_profile);
     newMessage.setThumbnail(user.avatarURL);
     newMessage.setURL(user.pageLink);
     newMessage.setAuthor(user.badge, user.badgeImage);
-    newMessage.addField("Handle", user.handle, true);
-    newMessage.addField("Pseudo", user.displayName, true);
+    newMessage.addField(lang.trad.handle, user.handle, true);
+    newMessage.addField(lang.trad.username, user.displayName, true);
     if (user.lang)
-        newMessage.addField("Langue(s) parlée(s)", user.lang.join(), true);
+        newMessage.addField(lang.trad.lang_speak, user.lang.join(), true);
     if (user.organizationSID)
-        newMessage.addField("Organisation", `*Organisation :* ${user.organizationSID}\n*Rank :* ${user.organizationRank}`, true);
+        newMessage.addField(lang.trad.org, `*${lang.trad.org} :* ${user.organizationSID}\n*${lang.trad.rank} :* ${user.organizationRank}`, true);
     if (user.bio)
-        newMessage.addField("Bio", user.bio);
+        newMessage.addField(lang.trad.biographies, user.bio);
     newMessage.setColor('#1681a5');
 
     if (user.discordID) {

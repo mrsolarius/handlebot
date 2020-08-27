@@ -1,8 +1,8 @@
 create table lang
 (
-    "langID" serial,
+    "langISO" char(2),
     "lang"   varchar(20),
-    constraint pk_lang primary key ("langID")
+    constraint pk_lang primary key ("langISO")
 );
 
 create table organizations
@@ -21,8 +21,8 @@ create table organizations
     "secondaryImage"  varchar(256),
     "banner"          varchar(256),
     "headline"        varchar(500),
-    "langID"          serial,
-    constraint fk_lang_speak foreign key ("langID") references lang ("langID"),
+    "langID"          char(2),
+    constraint fk_lang_speak foreign key ("langID") references lang ("langISO"),
     constraint PK_organisation primary key ("organizationSID")
 );
 
@@ -51,10 +51,10 @@ CREATE TABLE users
 create table speak
 (
     "userID" BIGINT not null,
-    "langID" serial not null,
+    "langID" char(2) not null,
     constraint pk_speak primary key ("userID", "langID"),
     constraint fk_user_speak foreign key ("userID") references users ("userID") ON DELETE CASCADE,
-    constraint fk_lang_speak foreign key ("langID") references lang ("langID")
+    constraint fk_lang_speak foreign key ("langID") references lang ("langISO")
 );
 
 create table manufacture
@@ -105,10 +105,12 @@ create table ship
 
 CREATE TABLE Server(
     "guildID" varchar(18),
-    "prefix" varchar(5),
+    "prefix" varchar(3),
+    "langID" char(2),
     "name" varchar(100),
     "memberCount" bigint,
-    constraint pk_guildID primary key ("guildID")
+    constraint pk_guildID primary key ("guildID"),
+    constraint fk_lang_server foreign key ("langID") references lang ("langISO")
 );
 
 CREATE EXTENSION pg_trgm;
