@@ -22,6 +22,5 @@ module.exports = async (message,lang) => {
     embedComposer.addField(lang.trad.ping,message.client.ws.ping+" ms",true);
     embedComposer.addField(lang.trad.ram_use, (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB", true);
     embedComposer.addField(lang.trad.uptime, `${j}j ${h}h ${m}m ${s}s`,true);
-    embedComposer.setFooter(lang.trad.start);
     await message.channel.send(embedComposer);
 }
