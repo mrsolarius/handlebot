@@ -37,7 +37,7 @@ class Lang {
      */
     static async tryGetLang(message) {
         const {guild} = message
-        let langID = process.env.LANG
+        let langID = process.env.LANG.substring(0, process.env.LANG.indexOf('_'))
         const guildLangID = await select.getGuildLang(guild.id)
         if (guildLangID){
             langID = guildLangID
