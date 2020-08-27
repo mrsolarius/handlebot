@@ -198,7 +198,7 @@ module.exports = {
             where "guildID" = $1
         `,[guildID])
         if (data.rowCount===0){
-            return false
+            return process.env.PREFIX
         }else {
             return data.rows[0].prefix
         }
