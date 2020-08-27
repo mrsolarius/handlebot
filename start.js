@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-(process.argv[2]=="--dev") ?
+(process.argv[2]==="--dev") ?
     dotenv.config({ path: '.env.dev' })
     : dotenv.config({ path: '.env' });
 
@@ -9,7 +9,7 @@ if (typeof process.env.TOKEN !== 'string') {
     throw new TypeError('Le token doit être un string');
 }
 
-client = new BotClient()
+const client = new BotClient()
 client.login().then(function () {
     client.start()
 })

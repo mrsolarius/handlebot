@@ -20,7 +20,11 @@ class Client {
             await client.login(process.env.TOKEN)
             this.bot = client
         }catch (err) {
-            return log.error(err,'Le bot ne peut pas se connecter')
+            if (err.code === "TOKEN_INVALID"){
+                throw new Error("Veuillez indiquer un token valide dans votre .env")
+            }else {
+                console.log(err)
+            }
         }
     }
 
