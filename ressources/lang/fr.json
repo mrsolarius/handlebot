@@ -193,5 +193,6 @@
   "chinese_warm": "Ouais un vaisseau pouvant accueillir toute la chine.. Si tu veux :joy:. Plus sérieusement prend un nombre moins grand",
   "europe_warm": "Vas y pour un vaisseau pouvant accueillirr tous les habitants d'Europe... PrendS un nombre plus petit ^^",
   "french_warm": "Ok donc là ton vaisseau pourrais emporter tous les habitants de la France OK... Bon si tu choisissais un nombre plus petit",
-  "to_big_crew_big_confirm": "Tu as indiquer un peu trop de membre d'équipage... Indique un nombre plus petit"
+  "to_big_crew_big_confirm": "Tu as indiquer un peu trop de membre d'équipage... Indique un nombre plus petit",
+  "no_result_found": "Désoler je n'est trouver aucun vaiseau pour toi"
 }
