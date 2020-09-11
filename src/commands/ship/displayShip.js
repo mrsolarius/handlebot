@@ -57,6 +57,7 @@ function funcTemplateEmbed(ship){
 }
 module.exports = async (message,ship,lang) => {
     let allEmbed = []
+    let pageNumer = 1;
     let page1 = funcTemplateEmbed(ship)
     page1.setDescription(ship.description)
     page1.addField(lang.trad.size,"```prolog\n"+capitalize(ship.size)+"```",true)
@@ -74,7 +75,8 @@ module.exports = async (message,ship,lang) => {
         page1.addField(lang.trad.price,"```prolog\n"+ship.price.replace(',00 €',' $')+"```",true)
         :page1.addField(lang.trad.price,"```prolog\n"+lang.trad.unknown+"```",true)
     page1.addField(lang.trad.production_status,"```prolog\n"+capitalize(ship.productionStatus)+"```",true)
-    page1.setFooter(lang.trad.page+' 1/6')
+    page1.footerText = lang.trad.page+' '+pageNumer
+    pageNumer+=1
     allEmbed.push(page1)
 
     let page2 = funcTemplateEmbed(ship)
@@ -100,51 +102,101 @@ module.exports = async (message,ship,lang) => {
     ship.zAxisAcceleration?
         page2.addField(lang.trad.z_axis_acceleration,"```prolog\n"+ship.zAxisAcceleration+" m/s²```")
         :page2.addField(lang.trad.z_axis_acceleration,"```prolog\n"+lang.trad.unknown+"```",true)
-    page2.setFooter(lang.trad.page+' 2/6')
+    page2.footerText = lang.trad.page+' '+pageNumer
+    pageNumer+=1
     allEmbed.push(page2)
 
-    let page3 = funcTemplateEmbed(ship)
-    page3.setTitle(ship.name+' : '+lang.trad.system)
-    page3.addField(lang.trad.computer,componentStringBuilder(lang,ship.componentJson.RSIAvionic.computers),true)
-    page3.addField(lang.trad.radar,componentStringBuilder(lang,ship.componentJson.RSIAvionic.radar),true)
-    page3.addField(lang.trad.power_plant,componentStringBuilder(lang,ship.componentJson.RSIModular.power_plants),false)
-    page3.addField(lang.trad.cooler,componentStringBuilder(lang,ship.componentJson.RSIModular.coolers),true)
-    page3.addField(lang.trad.shield_generators,componentStringBuilder(lang,ship.componentJson.RSIModular.shield_generators),true)
-    page3.setFooter(lang.trad.page+' 3/6')
-    allEmbed.push(page3)
+    if (ship.componentJson.RSIAvionic.computers.length !==0
+        || ship.componentJson.RSIAvionic.radar.length !==0
+        || ship.componentJson.RSIModular.power_plants.length !==0
+        || ship.componentJson.RSIModular.coolers.length !==0
+        || ship.componentJson.RSIModular.shield_generators.length !==0) {
+        let page3 = funcTemplateEmbed(ship)
+        page3.setTitle(ship.name + ' : ' + lang.trad.system)
+        ship.componentJson.RSIAvionic.computers.length !==0 ?
+            page3.addField(lang.trad.computer, componentStringBuilder(lang, ship.componentJson.RSIAvionic.computers), true)
+            : null
+        ship.componentJson.RSIAvionic.radar.length !==0 ?
+            page3.addField(lang.trad.radar, componentStringBuilder(lang, ship.componentJson.RSIAvionic.radar), true)
+            : null
+        ship.componentJson.RSIModular.power_plants.length !==0 ?
+            page3.addField(lang.trad.power_plant, componentStringBuilder(lang, ship.componentJson.RSIModular.power_plants), false)
+            : null
+        ship.componentJson.RSIModular.coolers.length !==0 ?
+            page3.addField(lang.trad.cooler, componentStringBuilder(lang, ship.componentJson.RSIModular.coolers), true)
+            : null
+        ship.componentJson.RSIModular.shield_generators.length !==0 ?
+            page3.addField(lang.trad.shield_generators, componentStringBuilder(lang, ship.componentJson.RSIModular.shield_generators), true)
+            : null
+        page3.footerText = lang.trad.page + ' ' + pageNumer
+        pageNumer += 1
+        allEmbed.push(page3)
+    }
 
-    let page4 = funcTemplateEmbed(ship)
-    page4.setTitle(ship.name+' : '+lang.trad.motorization)
-    page4.addField(lang.trad.fuel_intake, componentStringBuilder(lang,ship.componentJson.RSIPropulsion.fuel_intakes),true)
-    page4.addField(lang.trad.fuel_take, componentStringBuilder(lang,ship.componentJson.RSIPropulsion.fuel_tanks),true)
-    page4.addField(lang.trad.quantum_drive,componentStringBuilder(lang,ship.componentJson.RSIPropulsion.quantum_drives),true)
-    page4.addField(lang.trad.quantum_fuel_tanks,componentStringBuilder(lang,ship.componentJson.RSIPropulsion.quantum_fuel_tanks),true)
-    page4.setFooter(lang.trad.page+' 4/6')
-    allEmbed.push(page4)
+    if(ship.componentJson.RSIPropulsion.fuel_intakes.length !==0
+        || ship.componentJson.RSIPropulsion.fuel_tanks.length !==0
+        || ship.componentJson.RSIPropulsion.quantum_drives.length !==0
+        || ship.componentJson.RSIPropulsion.quantum_fuel_tanks.length !==0) {
+        let page4 = funcTemplateEmbed(ship)
+        page4.setTitle(ship.name + ' : ' + lang.trad.motorization)
+        ship.componentJson.RSIPropulsion.fuel_intakes.length !==0 ?
+            page4.addField(lang.trad.fuel_intake, componentStringBuilder(lang, ship.componentJson.RSIPropulsion.fuel_intakes), true)
+            : null
+        ship.componentJson.RSIPropulsion.fuel_tanks.length !==0 ?
+            page4.addField(lang.trad.fuel_take, componentStringBuilder(lang, ship.componentJson.RSIPropulsion.fuel_tanks), true)
+            : null
+        ship.componentJson.RSIPropulsion.quantum_drives.length !==0 ?
+            page4.addField(lang.trad.quantum_drive, componentStringBuilder(lang, ship.componentJson.RSIPropulsion.quantum_drives), true)
+            : null
+        ship.componentJson.RSIPropulsion.quantum_fuel_tanks.length !==0 ?
+            page4.addField(lang.trad.quantum_fuel_tanks, componentStringBuilder(lang, ship.componentJson.RSIPropulsion.quantum_fuel_tanks), true)
+            : null
+        page4.footerText = lang.trad.page + ' ' + pageNumer
+        pageNumer += 1
+        allEmbed.push(page4)
+    }
 
-    let page5 = funcTemplateEmbed(ship)
-    page5.setTitle(ship.name+' : '+lang.trad.thruster)
-    page5.addField(lang.trad.main_thrusters, componentStringBuilder(lang,ship.componentJson.RSIThruster.main_thrusters),true)
-    page5.addField(lang.trad.maneuvering_thrusters, componentStringBuilder(lang,ship.componentJson.RSIThruster.maneuvering_thrusters),true)
-    page5.setFooter(lang.trad.page+' 5/6')
-    allEmbed.push(page5)
+    if(ship.componentJson.RSIThruster.main_thrusters.length !==0 || ship.componentJson.RSIThruster.maneuvering_thrusters.length !==0) {
+        let page5 = funcTemplateEmbed(ship)
+        page5.setTitle(ship.name + ' : ' + lang.trad.thruster)
+        ship.componentJson.RSIThruster.main_thrusters.length !==0?
+            page5.addField(lang.trad.main_thrusters, componentStringBuilder(lang, ship.componentJson.RSIThruster.main_thrusters), true)
+            :null
+        ship.componentJson.RSIThruster.maneuvering_thrusters.length !==0?
+            page5.addField(lang.trad.maneuvering_thrusters, componentStringBuilder(lang, ship.componentJson.RSIThruster.maneuvering_thrusters), true)
+            :null
+        page5.footerText = lang.trad.page + ' ' + pageNumer
+        pageNumer += 1
+        allEmbed.push(page5)
+    }
 
-    let page6 = funcTemplateEmbed(ship)
-    page6.setTitle(ship.name+' : '+lang.trad.weapon)
-    ship.componentJson.RSIWeapon.missiles.length !==0  ?
-        page6.addField(lang.trad.missile,componentStringBuilder(lang,ship.componentJson.RSIWeapon.missiles))
-        :null
-    ship.componentJson.RSIWeapon.turrets.length !==0 ?
-        page6.addField(lang.trad.turrets,componentStringBuilder(lang,ship.componentJson.RSIWeapon.turrets))
-        :null
-    ship.componentJson.RSIWeapon.weapons.length !==0  ?
-        page6.addField(lang.trad.weapon,componentStringBuilder(lang,ship.componentJson.RSIWeapon.weapons))
-        :null
-    ship.componentJson.RSIWeapon.utility_items.length !==0  ?
-        page6.addField(lang.trad.utility_items,componentStringBuilder(lang,ship.componentJson.RSIWeapon.utility_items))
-        :null
-    page6.setFooter(lang.trad.page+' 6/6')
-    allEmbed.push(page6)
+    if (ship.componentJson.RSIWeapon.missiles.length !== 0
+        || ship.componentJson.RSIWeapon.turrets.length !== 0
+        || ship.componentJson.RSIWeapon.weapons.length !== 0
+        || ship.componentJson.RSIWeapon.utility_items.length !== 0) {
+        let page6 = funcTemplateEmbed(ship)
+        page6.setTitle(ship.name + ' : ' + lang.trad.weapon)
+        ship.componentJson.RSIWeapon.missiles.length !== 0 ?
+            page6.addField(lang.trad.missile, componentStringBuilder(lang, ship.componentJson.RSIWeapon.missiles))
+            : null
+        ship.componentJson.RSIWeapon.turrets.length !== 0 ?
+            page6.addField(lang.trad.turrets, componentStringBuilder(lang, ship.componentJson.RSIWeapon.turrets))
+            : null
+        ship.componentJson.RSIWeapon.weapons.length !== 0 ?
+            page6.addField(lang.trad.weapon, componentStringBuilder(lang, ship.componentJson.RSIWeapon.weapons))
+            : null
+        ship.componentJson.RSIWeapon.utility_items.length !== 0 ?
+            page6.addField(lang.trad.utility_items, componentStringBuilder(lang, ship.componentJson.RSIWeapon.utility_items))
+            : null
+        page6.footerText = lang.trad.page + ' ' + pageNumer
+        pageNumer += 1
+        allEmbed.push(page6)
+    }
+    pageNumer-=1
+    for (const page of allEmbed) {
+
+        page.setFooter(page.footerText+'/'+pageNumer)
+    }
 
     new rm.menu(
         message.channel,
