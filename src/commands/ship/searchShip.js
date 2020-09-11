@@ -32,12 +32,15 @@ module.exports = async (message,lang) => {
 
     const runner = new DiscordPromptRunner(message.author)
     try {
-        const data = await runner.run(askClassification(lang), message.channel)
+        const data = await runner.run(askClassification, message.channel)
         let waitMessage = await message.channel.send("⌛ **"+lang.trad.search_in_treatment+"**")
         try {
             let searchData = await searchShip(data.Type, data.LengthMin, data.LengthMax, data.CrewMin, data.CrewMax)
             await waitMessage.delete()
-            await sendSearchMessage(message,searchData)
+            if (searchData.length!==0)
+                await sendSearchMessage(message,searchData)
+            else
+                await waitMessage.edit("❌ **"+lang.trad.no_result_found+"**")
         }catch(err){
             console.log(err)
             await waitMessage.edit('⚠ **'+lang.trad.unknown_error+'**')

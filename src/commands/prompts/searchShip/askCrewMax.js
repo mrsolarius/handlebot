@@ -7,7 +7,7 @@ module.exports = function (lang) {
         )
     }
 
-    const askLengthMin = new PromptNode(
+    return new PromptNode(
         new DiscordPrompt(
             askLengthVisual,
             async (m, data) => {

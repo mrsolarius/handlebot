@@ -193,5 +193,6 @@
   "chinese_warm": "Yeah a vessel that can accommodate all of china .. If you want: joy:. More seriously take a smaller number",
   "europe_warm": "Go for a vessel that can accommodate all inhabitants of europe ... Take a smaller number ^^",
   "french_warm": "Ok so your ship could take all the inhabitants of France OK ... Okay if you choose a smaller number",
-  "to_big_crew_big_confirm": "You want to indicate a little too many crew members ... Indicate a smaller number"
+  "to_big_crew_big_confirm": "You want to indicate a little too many crew members ... Indicate a smaller number",
+  "no_result_found": "Sorry I don't have found any ship for you"
 }
