@@ -16,8 +16,10 @@ async function sendToAllOwner(message,sendMessage){
 module.exports = async (message) => {
     if (message.author.id==='195121362371608576'){
         let messageToSend = await promptMain(message)
-        let infoMsg = await message.channel.send('⏳ **Message en cour d\'envoie**')
-        await sendToAllOwner(message, messageToSend)
-        return await infoMsg.edit('✅ **Votre message à bien était envoyer**')
+        if (messageToSend) {
+            let infoMsg = await message.channel.send('⏳ **Message en cour d\'envoie**')
+            await sendToAllOwner(message, messageToSend)
+            return await infoMsg.edit('✅ **Votre message à bien était envoyer**')
+        }
     }
 }
