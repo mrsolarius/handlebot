@@ -1,7 +1,5 @@
 const log = require("../../utils/logger");
 const db = require("../../utils/PostgresHelper");
-//const User = require("../../models/User");
-//const Organization = require("../../models/Organization")
 
 module.exports = {
     /**
@@ -197,18 +195,7 @@ module.exports = {
             FROM server
             where "guildID" = $1
         `,[guildID])
-        if (data.rows[0].prefix===null){
-            return process.env.PREFIX
-        }else {
-            return data.rows[0].prefix
-        }
-    },
-    async getGuildLang(guildID){
-        let data = await db.query(`
-            SELECT "langID" 
-            FROM server
-            where "guildID" = $1
-        `,[guildID])
+        console.log(data.rows)
         if (data.rows.length===0){
             return process.env.PREFIX
         }else {
@@ -218,6 +205,18 @@ module.exports = {
             else{
                 return process.env.PREFIX
             }
+        }
+    },
+    async getGuildLang(guildID){
+        let data = await db.query(`
+            SELECT "langID" 
+            FROM server
+            where "guildID" = $1
+        `,[guildID])
+        if (data.rowCount===0){
+            return false
+        }else {
+            return data.rows[0].langID
         }
     }
 }
