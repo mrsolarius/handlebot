@@ -122,7 +122,6 @@ class Command {
     async run (message) {
         const channelID = message.channel.id
         const lang = await Lang.tryGetLang(message)
-        console.log(lang)
         //permet d'evister les conflie sur le lancement des commande prompt
         DiscordPromptRunner.addActiveChannel(channelID)
         try {

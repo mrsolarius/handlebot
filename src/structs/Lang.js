@@ -42,7 +42,6 @@ class Lang {
         if (guildLangID){
             langID = guildLangID
         }
-        console.log(langID)
         return this.get(langID)
     }
 
