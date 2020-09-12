@@ -4,16 +4,9 @@ const { DiscordPromptRunner } = require('discord.js-prompts')
 const log = require('../utils/logger')
 const fsPromises = require('fs').promises
 const select = require('../interfaces/database/select')
+const Lang = require('./Lang')
 
 class Command {
-
-    static get USER_PERMISSIONS () {
-        return {
-            sub: [],
-            unsub: [],
-            'sub.filters': []
-        }
-    }
 
     /**
      * @param {string} name - Command name
@@ -21,9 +14,6 @@ class Command {
      * @param {boolean} owner - If this is an admin command
      */
     constructor(name, func, owner = false) {
-        /**
-         * @todo utiliser la variable admin pour verifier les permition de l'utilisateur
-         */
         this.admin = owner
         this.name = name
         this.func = func
@@ -73,6 +63,7 @@ class Command {
         const {guild} = message
         let prefix = process.env.PREFIX
         let guildPrefix = await select.getGuildPrefix(guild.id)
+        console.log(guildPrefix)
         if (guildPrefix){
             prefix = guildPrefix
         }
@@ -130,10 +121,11 @@ class Command {
      */
     async run (message) {
         const channelID = message.channel.id
+        const lang = await Lang.tryGetLang(message)
         //permet d'evister les conflie sur le lancement des commande prompt
         DiscordPromptRunner.addActiveChannel(channelID)
         try {
-            await this.func(message, this.name)
+            await this.func(message,lang, this.name)
         } finally {
             DiscordPromptRunner.deleteActiveChannel(channelID)
         }

@@ -1,7 +1,5 @@
 const log = require("../../utils/logger");
 const db = require("../../utils/PostgresHelper");
-//const User = require("../../models/User");
-//const Organization = require("../../models/Organization")
 
 module.exports = {
     /**
@@ -82,7 +80,7 @@ module.exports = {
     async getUserLangFromUserID(UserID){
         let data = await db.query(`
             select lang from speak
-            inner join lang ON lang."langID" = speak."langID"
+            inner join lang ON lang."langISO" = speak."langID"
             where speak."userID" = $1`,[UserID]);
 
         let returnedLang = []
@@ -141,7 +139,7 @@ module.exports = {
         let data = await db.query(`
             select lang.lang
             from lang
-            where lang."langID" in (${strReturn})`, langIDs)
+            where lang."langISO" in (${strReturn})`, langIDs)
         for(let lang of data.rows){
             returnedLang.push(lang.lang)
         }
@@ -160,11 +158,11 @@ module.exports = {
         }
         strReturn = strReturn.substr(0, strReturn.length - 1);
         let data = await db.query(`
-            select "langID"
+            select "langISO"
             from lang
             where lang.lang in (${strReturn})`, lang)
         for(let lang of data.rows){
-            returnedLang.push(lang.langID)
+            returnedLang.push(lang.langISO)
         }
         return returnedLang
     },
@@ -197,10 +195,28 @@ module.exports = {
             FROM server
             where "guildID" = $1
         `,[guildID])
+        console.log(data.rows)
+        if (data.rows.length===0){
+            return process.env.PREFIX
+        }else {
+            if(data.rows[0].prefix){
+                return data.rows[0].prefix
+            }
+            else{
+                return process.env.PREFIX
+            }
+        }
+    },
+    async getGuildLang(guildID){
+        let data = await db.query(`
+            SELECT "langID" 
+            FROM server
+            where "guildID" = $1
+        `,[guildID])
         if (data.rowCount===0){
             return false
         }else {
-            return data.rows[0].prefix
+            return data.rows[0].langID
         }
     }
 }

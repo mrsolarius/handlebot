@@ -13,20 +13,25 @@ async function setObject(obj) {
         user.discordID = obj.discordID
         if (user.organizationSID) {
             console.log("Organisation du membre : "+user.organizationSID)
-            if (!await select.isOrganizationRegisterFromSID(user.organizationSID)) {
+            let isRegister = await select.isOrganizationRegisterFromSID(user.organizationSID)
+            if (!isRegister) {
                 let organization = await scAPI.getOrganization(user.organizationSID)
                 await insert.insertOrganisation(organization).then(function () {
+                    console.log("Insersion de l'organisation : " + user.organizationSID)
                     insert.insertUser(user)
                     console.log("Insersion du membre : " + obj.handle)
+                    return null
                 })
-                console.log("Insersion de l'organisation : " + user.organizationSID)
+
             }else {
                 await insert.insertUser(user)
                 console.log("Insersion du membre : " + obj.handle)
+                return null
             }
         }else {
             await insert.insertUser(user)
             console.log("Insersion du membre : " + obj.handle)
+            return null
         }
     }
 }
