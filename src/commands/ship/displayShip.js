@@ -13,9 +13,11 @@ const componentStringBuilder = (lang,components) =>{
         str += "```autohotkey" +
             "\n#" +component.name+"#"
             "\n"+lang.trad.manufacturer+" : "+component.manufacturer
-        component.details.length>1?
-            str +="\n"+lang.trad.detail+" : " +component.details
-            :str +=""
+        component.details?
+            component.details.length>1?
+                str +="\n"+lang.trad.detail+" : " +component.details
+                :str +=""
+            :null
         str += "\n"+lang.trad.size+" : "+component.component_size+
             "\n"+lang.trad.mount+" : "+component.mounts+
             "\n"+lang.trad.number+" : "+component.quantity+"```"
