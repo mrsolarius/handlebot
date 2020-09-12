@@ -144,5 +144,11 @@ module.exports = {
         apiJSON = JSON.parse(apiJSON)
         if(apiJSON.data)
             return apiJSON.data[0]
+    },
+    async getAllShip(){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/ships?json_path=$[*]`)
+        apiJSON = JSON.parse(apiJSON)
+        if(apiJSON.data)
+            return apiJSON.data
     }
 }
