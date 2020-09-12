@@ -22,64 +22,65 @@ class Ship {
     /**
      * @return {Promise<void>}
      */
-    static async updateShips(){
-        let allShip = await fleetYards.getAllShipsName()
-        let updateShip = new Promise((resolve, reject) => {
-            allShip.forEach((item,index,allShip) => {
-               Promise.all([fleetYards.getShip(item), scAPI.getShip(item.replace('-', '%20'))]).then(data => {
-                    if (data[1]  && data[0].slug) {
-                        let ship = new Ship()
-                        ship.slug = item
-                        ship.fleetChartImage = data[0].fleetchartImage;
-                        ship.inGamePrice = data[0].price;
-                        ship.manufacture.logoURL = data[0].manufacturer.logo
-                        ship.manufacture.manufacturerCode = data[1].manufacturer.code
-                        ship.manufacture.name = data[1].manufacturer.name
-                        ship.manufacture.description = data[1].manufacturer.description
-                        ship.manufacture.knownFor = data[1].manufacturer.knownFor
-                        ship.manufacturerCode = data[1].manufacturer.code
-                        ship.name = data[1].name
-                        ship.type = data[1].type
-                        ship.focus = data[1].focus
-                        ship.description = data[1].description
-                        ship.beam = data[1].beam
-                        ship.height = data[1].height
-                        ship.length = data[1].length
-                        ship.mass = data[1].mass
-                        ship.size = data[1].size
-                        ship.cargoCapacity = data[1].cargocapacity
-                        ship.maxCrew = data[1].max_crew
-                        ship.minCrew = data[1].min_crew
-                        ship.afterBurnerSpeed = data[1].afterburner_speed
-                        ship.scmSpeed = data[1].smc_speed
-                        ship.pitchMax = data[1].pitch_max
-                        ship.yawMax = data[1].yaw_max
-                        ship.rollMax = data[1].roll_max
-                        ship.xAxisAcceleration = data[1].xaxis_acceleration
-                        ship.yAxisAcceleration = data[1].yaxis_acceleration
-                        ship.zAxisAcceleration = data[1].zaxis_acceleration
-                        ship.price = data[1].price
-                        ship.productionStatus = data[1].production_status.replace('-', ' ')
-                        ship.componentJson = data[1].compiled
-                        ship.lastModified = data[1].time_modified_unfiltered
-                        validURL(data[1].url) ?
-                            ship.url = data[1].url
-                            :ship.url = RSIURL + data[1].url
-                        validURL( data[1].media[0].images.banner) ?
-                            ship.bannerImage = data[1].media[0].images.banner
-                            :ship.bannerImage = RSIURL + data[1].media[0].images.banner
-                        insertShip(ship).catch(err => {
-                            console.log(ship.name)
-                            console.log(err)
-                        })
-                    }
-                    if (index === 1){
-                        resolve();
-                    }
-                })
-            })
-        })
-        await updateShip
+    static async updateShips() {
+        let allShip = await scAPI.getAllShip()
+        for (const SCAPIShip of allShip) {
+            if (SCAPIShip) {
+                let ship = new Ship()
+                try {
+                    const FleetYard = await fleetYards.getShip(SCAPIShip.name)
+                    ship.slug = FleetYard.slug
+                    ship.fleetChartImage = FleetYard.fleetchartImage;
+                    ship.inGamePrice = FleetYard.price;
+                    ship.manufacture.logoURL = FleetYard.manufacturer.logo
+                } catch (e) {
+                    ship.slug = SCAPIShip.name.trim().toLowerCase().split(' ').join('-')
+                    ship.fleetChartImage = null;
+                    ship.inGamePrice = null;
+                    validURL(SCAPIShip.manufacturer.media[0].source_url) ?
+                        ship.manufacture.logoURL = SCAPIShip.manufacturer.media[0].source_url :
+                        ship.manufacture.logoURL = RSIURL + SCAPIShip.manufacturer.media[0].source_url
+                } finally {
+                    ship.manufacture.manufacturerCode = SCAPIShip.manufacturer.code
+                    ship.manufacture.name = SCAPIShip.manufacturer.name
+                    ship.manufacture.description = SCAPIShip.manufacturer.description
+                    ship.manufacture.knownFor = SCAPIShip.manufacturer.knownFor
+                    ship.manufacturerCode = SCAPIShip.manufacturer.code
+                    ship.name = SCAPIShip.name
+                    ship.type = SCAPIShip.type
+                    ship.focus = SCAPIShip.focus
+                    ship.description = SCAPIShip.description
+                    ship.beam = SCAPIShip.beam
+                    ship.height = SCAPIShip.height
+                    ship.length = SCAPIShip.length
+                    ship.mass = SCAPIShip.mass
+                    ship.size = SCAPIShip.size
+                    ship.cargoCapacity = SCAPIShip.cargocapacity
+                    ship.maxCrew = SCAPIShip.max_crew
+                    ship.minCrew = SCAPIShip.min_crew
+                    ship.afterBurnerSpeed = SCAPIShip.afterburner_speed
+                    ship.scmSpeed = SCAPIShip.smc_speed
+                    ship.pitchMax = SCAPIShip.pitch_max
+                    ship.yawMax = SCAPIShip.yaw_max
+                    ship.rollMax = SCAPIShip.roll_max
+                    ship.xAxisAcceleration = SCAPIShip.xaxis_acceleration
+                    ship.yAxisAcceleration = SCAPIShip.yaxis_acceleration
+                    ship.zAxisAcceleration = SCAPIShip.zaxis_acceleration
+                    ship.price = SCAPIShip.price
+                    ship.productionStatus = SCAPIShip.production_status.replace('-', ' ')
+                    ship.componentJson = SCAPIShip.compiled
+                    ship.lastModified = SCAPIShip.time_modified_unfiltered
+                    validURL(SCAPIShip.url) ?
+                        ship.url = SCAPIShip.url
+                        : ship.url = RSIURL + SCAPIShip.url
+                    validURL(SCAPIShip.media[0].images.banner) ?
+                        ship.bannerImage = SCAPIShip.media[0].images.banner
+                        : ship.bannerImage = RSIURL + SCAPIShip.media[0].images.banner
+                    await insertShip(ship)
+                }
+            }
+        }
+        return
     }
 }
 
