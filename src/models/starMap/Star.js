@@ -27,6 +27,7 @@ class Star {
      * @param {string} description
      * @param {float} aggregatedDanger
      * @param {float} aggregatedEconomy
+     * @param {float} aggregatedPopulation
      * @param {float} frostLine
      * @param {float} habitableZoneInner
      * @param {float} aggregatedSize
@@ -39,12 +40,13 @@ class Star {
      * @param {string} type
      * @param {char} status
      */
-    constructor(starCode, affiliation, description, aggregatedDanger, aggregatedEconomy, frostLine, habitableZoneInner, aggregatedSize, habitableZoneOuter, infoUrl, positionX, positionY, positionZ, imgURL, type,status) {
+    constructor(starCode, affiliation, description, aggregatedDanger, aggregatedEconomy, aggregatedPopulation,frostLine, aggregatedSize, habitableZoneInner, habitableZoneOuter, infoUrl, positionX, positionY, positionZ, imgURL, type,status) {
         this.starCode = starCode
         this.affiliation = affiliation
         this.description = description
         this.aggregatedDanger = aggregatedDanger
         this.aggregatedEconomy= aggregatedEconomy
+        this.aggregatedPopulation = aggregatedPopulation
         this.aggregatedSize= aggregatedSize
         this.frostLine= frostLine
         this.habitableZoneInner= habitableZoneInner

@@ -119,6 +119,7 @@ CREATE TABLE stars (
     "description" TEXT,
     "aggregatedDanger" DECIMAL(3,3),
     "aggregatedEconomy" DECIMAL(3,3),
+    "aggregatedPopulation"DECIMAL(3,3),
     "aggregatedSize" DECIMAL(3,3),
     "frostLine" REAL,
     "habitableZoneInner" REAL,
