@@ -1,4 +1,5 @@
 const Affiliation = require('Affiliation')
+const {insertUpdateStar} = require("../../interfaces/database/insert");
 
 class Star {
 
@@ -55,6 +56,10 @@ class Star {
         this.imgURL= imgURL
         this.type= type
         this.status= status
+    }
+
+    async save(){
+        await insertUpdateStar(this)
     }
 
 }

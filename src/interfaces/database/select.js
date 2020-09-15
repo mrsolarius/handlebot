@@ -218,5 +218,16 @@ module.exports = {
         }else {
             return data.rows[0].langID
         }
+    },
+    async getAffiliation(affiliationCode){
+        let data = await db.query(`
+            SELECT *
+            FROM affiliations
+            where "codeAffiliation" = $1
+        `,[affiliationCode])
+        if (data.rowCount!==0)
+            return data.rows[0]
+        else
+            return false
     }
 }
