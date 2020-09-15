@@ -102,5 +102,18 @@ module.exports = {
             SET "guildID"=$1,"langID"=$2`,
             [serveurID,langID]
         )
+    },
+    /**
+     *
+     * @param {Affiliation} affiliation
+     * @returns {Promise<void>}
+     */
+    async insertUpdateAffiliation(affiliation){
+        await db.query(`
+            INSERT INTO affiliations ("codeAffiliation", "colorAffiliation", name) 
+            VALUES ($1,$2,$3)
+            ON CONFLICT ("codeAffiliation") DO UPDATE
+            SET "codeAffiliation" = $1,"colorAffiliation" = $2, name=$3`,
+            [affiliation.codeAffiliation,affiliation.colorAffiliation,affiliation.name])
     }
 }

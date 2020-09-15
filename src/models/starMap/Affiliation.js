@@ -1,3 +1,5 @@
+const {insertUpdateAffiliation} = require("../../interfaces/database/insert");
+
 class Affiliation {
     /**
      *
@@ -9,5 +11,9 @@ class Affiliation {
         this.codeAffiliation = codeAffiliation
         this.colorAffiliation = colorAffiliation
         this.name = name
+    }
+
+    async save(){
+        await insertUpdateAffiliation(this)
     }
 }
