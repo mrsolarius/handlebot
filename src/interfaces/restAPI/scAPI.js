@@ -83,6 +83,9 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
 
 function starAPIConverterToOBJ(item){
     let affiliation = new Affiliation(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
+    let thumbnail = item.thumbnail?
+        item.thumbnail.source
+        :null
     return new Star(
         item.code,
         affiliation,
@@ -98,7 +101,7 @@ function starAPIConverterToOBJ(item){
         item.position_x,
         item.position_y,
         item.position_x,
-        item.thumbnail.source,
+        thumbnail,
         item.type,
         item.status)
 }
