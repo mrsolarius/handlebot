@@ -170,7 +170,7 @@ module.exports = {
         let shipsData = await db.query(
     `SELECT *
             from ship
-            WHERE SIMILARITY(slug,$1)>0.4
+            WHERE SIMILARITY(slug,$1)>0.3
             order by ship.name`,[searchString.replace(' ','-')]
         )
         let shipsArray = []
