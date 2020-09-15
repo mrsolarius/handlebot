@@ -176,5 +176,16 @@ module.exports = {
             on CONFLICT ("parentStarCode", "parentTypeCode", "parentObjCode", "childStarCode", "childTypeCode", "childObjCode") do nothing `,
             [starMapObjectParent.star.starCode,starMapObjectParent.type.typeCode,starMapObjectParent.objCode,starMapObjectChild.star.starCode,starMapObjectChild.type.typeCode,starMapObjectChild.objCode])
 
+    },
+    /**
+     *
+     * @param {JumpPointLink} jumpPointLink
+     * @returns {Promise<void>}
+     */
+    async insertJumpPointLink(jumpPointLink){
+        await db.query(`insert into jumppointlinks ("entryStarCode", "entryTypeCode", "entryObjCode", "exitStarCode", "exitTypeCode", "exitObjCode", name, direction, size) 
+            values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+            on CONFLICT ("entryStarCode", "entryTypeCode", "entryObjCode", "exitStarCode", "exitTypeCode", "exitObjCode") do nothing `,
+            [jumpPointLink.entryStarMapObject.star.starCode,jumpPointLink.entryStarMapObject.type.typeCode,jumpPointLink.entryStarMapObject.objCode,jumpPointLink.exitStarMapObject.star.starCode,jumpPointLink.exitStarMapObject.type.typeCode,jumpPointLink.exitStarMapObject.objCode,jumpPointLink.name,jumpPointLink.direction,jumpPointLink.size])
     }
 }
