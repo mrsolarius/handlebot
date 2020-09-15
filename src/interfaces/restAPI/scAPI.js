@@ -7,6 +7,7 @@ const Star = require("../../models/starMap/Star");
 const Type = require("../../models/starMap/Type");
 const StarMapObject = require("../../models/starMap/StarMapObject");
 const JumpPointLink = require("../../models/starMap/JumpPointLink");
+const {insertUpdateStar,insertUpdateType} = require("../database/insert");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 
