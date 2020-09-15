@@ -226,7 +226,52 @@ module.exports = {
             where "codeAffiliation" = $1
         `,[affiliationCode])
         if (data.rowCount!==0)
-            return data.rows[0]
+            return new Affiliation(data.rows[0].codeAffiliation,data.rows[0].colorAffiliation,data.rows[0].name)
+        else
+            return false
+    },
+    async getType(typeCode){
+        let data = await db.query(`
+            SELECT *
+            FROM types
+            where "typeCode" = $1
+        `,[typeCode])
+        if (data.rowCount!==0)
+            return new Type(data.rows[0].typeCode,data.rows[0].nomType)
+        else
+            return false
+    },
+    async getStar(starCode){
+        let data = await db.query(`
+            SELECT *
+            FROM stars
+            inner join affiliations a on stars."codeAffiliation" = a."codeAffiliation"
+            where "starCode" = $1
+        `,[starCode])
+        if (data.rowCount!==0)
+            return new Star(
+                data.rows[0].starCode,
+                new Affiliation(
+                    data.rows[0].codeAffiliation,
+                    data.rows[0].colorAffiliation,
+                    data.rows[0].name
+                ),
+                data.rows[0].description,
+                data.rows[0].aggregatedDanger,
+                data.rows[0].aggregatedEconomy,
+                data.rows[0].aggregatedPopulation,
+                data.rows[0].frostLine,
+                data.rows[0].aggregatedSize,
+                data.rows[0].habitableZoneInner,
+                data.rows[0].habitableZoneOuter,
+                data.rows[0].infoURL,
+                data.rows[0].positionX,
+                data.rows[0].positionY,
+                data.rows[0].positionZ,
+                data.rows[0].imgURL,
+                data.rows[0].type,
+                data.rows[0].status
+                )
         else
             return false
     }
