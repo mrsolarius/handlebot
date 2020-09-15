@@ -1,6 +1,8 @@
 const Star = require('Star')
 const Type = require('Type')
 const SubType = require('SubType')
+const {insertChildObject} = require("../../interfaces/database/insert");
+const {insertUpdateStarMapObject} = require("../../interfaces/database/insert");
 
 class StarMapObject {
     star
@@ -48,8 +50,9 @@ class StarMapObject {
      * @param {int}sensorPopulation
      * @param {float}size
      * @param {string}imgURL
+     * @param {Array<StarMapObject>} childs
      */
-    constructor(star, type, subType, objCode, appearance, axialTilt, name, description, designation, distance, fairChanceAct, habitable, infoURL, lat, long, orbitPeriod, sensorDanger, sensorEconomy, sensorPopulation, size, imgURL) {
+    constructor(star, type, subType, objCode, appearance, axialTilt, name, description, designation, distance, fairChanceAct, habitable, infoURL, lat, long, orbitPeriod, sensorDanger, sensorEconomy, sensorPopulation, size, imgURL,childs) {
         this.star = star
         this.type = type
         this.subType = subType
@@ -71,5 +74,16 @@ class StarMapObject {
         this.sensorPopulation = sensorPopulation
         this.size = size
         this.imgURL = imgURL
+        this.childs = childs;
+    }
+
+    async save(){
+        const parent = this
+        await insertUpdateStarMapObject(this)
+        await this.childs.forEach(value => {
+            value.save().then(v=>{
+                insertChildObject(parent,value)
+            })
+        })
     }
 }

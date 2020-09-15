@@ -152,5 +152,29 @@ module.exports = {
             values ($1,$2,$3)
             on conflict ("subTypeID") do update set  "subTypeID"= $1,"typeCode"=$2,"nomSubType"=$3`,
             [subType.subTypeID,subType.type.typeCode,subType.nomSubType])
+    },
+    /**
+     *
+     * @param {StarMapObject}starMapObject
+     * @returns {Promise<void>}
+     */
+    async insertUpdateStarMapObject(starMapObject){
+        await db.query(`Insert Into starmapobjects ("starCode", "typeCode", "objCode", appearance, "subType", "axialTilt", name, description, designation, distance, "fairChanceAct", habitable, "infoURL", lat, long, "orbitPeriod", "sensorDanger", "sensorEconomy", "sensorPopulation", size, "imgURL") 
+            values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)
+            on CONFLICT ("starCode","typeCode","objCode") do update set appearance=$4,"subType"=$5,"axialTilt"=$6,name=$7,description=$8,designation=$9,distance=$10,"fairChanceAct"=$11,"habitable"=$12,"infoURL"=$13,lat=$14,long=$15,"orbitPeriod"=$16,"sensorDanger"=$17,"sensorEconomy"=$18,"sensorPopulation"=$19,size=$20,"imgURL"=$21`,
+            [starMapObject.star.starCode,starMapObject.type.typeCode,starMapObject.objCode,starMapObject.appearance,starMapObject.axialTilt,starMapObject.name,starMapObject.description,starMapObject.designation,starMapObject.distance,starMapObject.fairChanceAct,starMapObject.habitable,starMapObject.infoURL,starMapObject.lat,starMapObject.long,starMapObject.orbitPeriod,starMapObject.sensorDanger,starMapObject.sensorEconomy,starMapObject.sensorPopulation,starMapObject.size,starMapObject.infoURL])
+    },
+    /**
+     *
+     * @param {StarMapObject} starMapObjectParent
+     * @param {StarMapObject} starMapObjectChild
+     * @returns {Promise<void>}
+     */
+    async insertChildObject(starMapObjectParent, starMapObjectChild){
+        await db.query(`insert into objectchild ("parentStarCode", "parentTypeCode", "parentObjCode", "childStarCode", "childTypeCode", "childObjCode") 
+            values ($1,$2,$3,$4,$5,$6)
+            on CONFLICT ("parentStarCode", "parentTypeCode", "parentObjCode", "childStarCode", "childTypeCode", "childObjCode") do nothing `,
+            [starMapObjectParent.star.starCode,starMapObjectParent.type.typeCode,starMapObjectParent.objCode,starMapObjectChild.star.starCode,starMapObjectChild.type.typeCode,starMapObjectChild.objCode])
+
     }
 }
