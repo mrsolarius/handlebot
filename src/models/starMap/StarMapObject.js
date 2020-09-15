@@ -1,4 +1,6 @@
 const Star = require('Star')
+const Type = require('Type')
+const SubType = require('SubType')
 
 class StarMapObject {
     star
@@ -69,8 +71,5 @@ class StarMapObject {
         this.sensorPopulation = sensorPopulation
         this.size = size
         this.imgURL = imgURL
-
-
-
     }
 }
