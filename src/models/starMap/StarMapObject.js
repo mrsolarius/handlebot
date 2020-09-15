@@ -1,6 +1,6 @@
-const Star = require('Star')
-const Type = require('Type')
-const SubType = require('SubType')
+const Star = require('./Star')
+const Type = require('./Type')
+const SubType = require('./SubType')
 const {insertChildObject} = require("../../interfaces/database/insert");
 const {insertUpdateStarMapObject} = require("../../interfaces/database/insert");
 

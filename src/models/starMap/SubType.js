@@ -1,4 +1,4 @@
-const Type = require('Type')
+const Type = require('./Type')
 const {insertUpdateSubType} = require("../../interfaces/database/insert");
 
 class SubType{

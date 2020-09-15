@@ -1,4 +1,4 @@
-const Affiliation = require('Affiliation')
+const Affiliation = require('./Affiliation')
 const {insertUpdateStar} = require("../../interfaces/database/insert");
 
 class Star {
