@@ -1,5 +1,6 @@
 const get = require('../../utils/xhrRequest')
 const log = require("../../utils/logger");
+const {getStar,getType} = require("../database/select");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 
@@ -27,6 +28,73 @@ async function searchShipAtPage(classification,lengthMin,lengthMax,crewMin,crewM
     } catch (e) {
         return e
     }
+}
+
+async function starMapObjectAPIConverterToOBJ(apiObject){
+    const key = apiObject.code.split('.')
+    let star = await getStar(key[0])
+    let type = await getType(key[1])
+    if (!star){
+        star = await insertUpdateStar(await getStar(key[0]))
+    }
+    if (!type){
+        type = await insertUpdateType(new Type(apiObject.type,apiObject.type))
+    }
+    let childrenArray = []
+    if (apiObject.children){
+        for(const item of apiObject.children){
+            childrenArray.push(starMapObjectAPIConverterToOBJ(item))
+        }
+    }
+    return new StarMapObject(
+        star,
+        type,
+        new SubType(
+            type,
+            apiObject.subtype.id,
+            apiObject.subtype.name
+        ),
+        key[key.length-1],
+        apiObject.appearance,
+        apiObject.axialTilt,
+        apiObject.name,
+        apiObject.description,
+        apiObject.designation,
+        apiObject.distance,
+        apiObject.fairchanceact,
+        apiObject.habitable,
+        apiObject.info_url,
+        apiObject.lat,
+        apiObject.long,
+        apiObject.orbit_period,
+        apiObject.sensor_danger,
+        apiObject.senesor_economy,
+        apiObject.sensor_population,
+        apiObject.size,
+        apiObject.texture.source,
+        childrenArray)
+}
+
+function starAPIConverterToOBJ(item){
+    let affiliation = new Affiliation(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
+    return new Star(
+        item.code,
+        affiliation,
+        item.description,
+        item.aggregated_danger,
+        item.aggregated_economy,
+        item.aggregated_economy,
+        item.frost_line,
+        item.aggregated_size,
+        item.habitable_zone_inner,
+        item.habitable_zone_outer,
+        item.info_url,
+        item.position_x,
+        item.position_y,
+        item.position_x,
+        item.thumbnail.source,
+        item.type,
+        item.status)
 }
 
 module.exports = {
@@ -166,34 +234,37 @@ module.exports = {
     },
     /**
      *
+     * @param code
+     * @return {Promise<Star>}
+     */
+    async getStar(code){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/star-system?json_path=$[?(code=${code})]`)
+        apiJSON = JSON.parse(apiJSON)
+        return starAPIConverterToOBJ(apiJSON.data)
+    },
+    /**
+     *
      * @returns {Promise<Array<Star>>}
      */
-    async getStarSystems(){
+    async getStars(){
         let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/star-system?json_path=$[*]`)
         apiJSON = JSON.parse(apiJSON)
         let StarSystems = []
         for (const item of apiJSON.data){
-            let affiliation = new Affiliation(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
-
-            StarSystems.push(new Star(
-                item.code,
-                affiliation,
-                item.description,
-                item.aggregated_danger,
-                item.aggregated_economy,
-                item.aggregated_economy,
-                item.frost_line,
-                item.aggregated_size,
-                item.habitable_zone_inner,
-                item.habitable_zone_outer,
-                item.info_url,
-                item.position_x,
-                item.position_y,
-                item.position_x,
-                item.thumbnail.source,
-                item.type,
-                item.status));
+            StarSystems.push(starAPIConverterToOBJ(item));
         }
         return StarSystems
+    },
+    /**
+     * @return {Promise<Array<StarMapObject>>}
+     */
+    async getStarMapObjects(){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/object?json_path=$[*]`)
+        apiJSON = JSON.parse(apiJSON)
+        let starMapObjects = []
+        for (let SMO of apiJSON.data){
+            starMapObjects.push(starMapObjectAPIConverterToOBJ(SMO))
+        }
+        return starMapObjects
     }
 }
