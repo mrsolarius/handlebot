@@ -8,7 +8,7 @@ class SubType extends Type{
      * @param {string} subTypeName
      */
     constructor(@null type,subTypeID,subTypeName) {
-        super(type.typeCode,type.nom)
+        super(type.typeCode,type.nomType)
         this.id = subTypeID
         this.nomSubType = subTypeName
         this.prentCode = super.typeCode
