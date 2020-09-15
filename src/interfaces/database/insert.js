@@ -140,5 +140,17 @@ module.exports = {
             on conflict ("typeCode") do update set "typeCode" = $1, "nomType" = $2`,
             [type.typeCode,type.nomType])
 
+    },
+    /**
+     *
+     * @param {SubType}subType
+     * @returns {Promise<void>}
+     */
+    async insertUpdateSubType(subType){
+        await insertUpdateType(subType.type)
+        await db.query(`INSERT INTO subtype ("subTypeID", "typeCode", "nomSubType")
+            values ($1,$2,$3)
+            on conflict ("subTypeID") do update set  "subTypeID"= $1,"typeCode"=$2,"nomSubType"=$3`,
+            [subType.subTypeID,subType.type.typeCode,subType.nomSubType])
     }
 }
