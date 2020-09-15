@@ -25,3 +25,5 @@ class Type {
         await insertUpdateType(this)
     }
 }
+
+module.exports = Type

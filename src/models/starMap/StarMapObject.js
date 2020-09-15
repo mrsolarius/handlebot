@@ -87,3 +87,5 @@ class StarMapObject {
         })
     }
 }
+
+module.exports = StarMapObject

@@ -1,6 +1,12 @@
 const get = require('../../utils/xhrRequest')
 const log = require("../../utils/logger");
 const {getStar,getType} = require("../database/select");
+const Affiliation = require("../../models/starMap/Affiliation");
+const SubType = require("../../models/starMap/SubType");
+const Star = require("../../models/starMap/Star");
+const Type = require("../../models/starMap/Type");
+const StarMapObject = require("../../models/starMap/StarMapObject");
+const JumpPointLink = require("../../models/starMap/JumpPointLink");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 

@@ -21,3 +21,5 @@ class SubType{
         await insertUpdateSubType(this)
     }
 }
+
+module.exports = SubType

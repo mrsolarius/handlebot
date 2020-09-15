@@ -65,3 +65,5 @@ class Star {
     }
 
 }
+
+module.exports = Star

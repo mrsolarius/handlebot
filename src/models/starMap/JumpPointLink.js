@@ -23,3 +23,5 @@ class JumpPointLink {
         await insertJumpPointLink(this)
     }
 }
+
+module.exports = JumpPointLink

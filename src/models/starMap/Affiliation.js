@@ -17,3 +17,5 @@ class Affiliation {
         await insertUpdateAffiliation(this)
     }
 }
+
+module.exports = Affiliation
