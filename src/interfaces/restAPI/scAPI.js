@@ -238,7 +238,7 @@ module.exports = {
      * @return {Promise<Star>}
      */
     async getStar(code){
-        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/star-system?json_path=$[?(code=${code})]`)
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/star-system?json_path=$[?(code="${code}")]`)
         apiJSON = JSON.parse(apiJSON)
         return starAPIConverterToOBJ(apiJSON.data)
     },
@@ -266,5 +266,25 @@ module.exports = {
             starMapObjects.push(starMapObjectAPIConverterToOBJ(SMO))
         }
         return starMapObjects
+    },
+    async getStarMapObject(fullCode){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/object?json_path=$[?(@.code="${fullCode}")]`)
+        apiJSON = JSON.parse(apiJSON)
+        return starMapObjectAPIConverterToOBJ(apiJSON.data)
+    },
+    /**
+     *
+     * @return {Promise<Array<JumpPointLink>>}
+     */
+    async getJumpPointLinks(){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/tunnels`)
+        apiJSON = JSON.parse(apiJSON)
+        let jumpPointLinks = []
+        for (const tunnel of apiJSON.data) {
+            const entryStarMapOBJ = await this.getStarMapObject(tunnel.entry.code)
+            const exitStarMapOBJ = await this.getStarMapObject(tunnel.exit.code)
+            jumpPointLinks.push(new JumpPointLink(entryStarMapOBJ,exitStarMapOBJ,tunnel.name,tunnel.direction,tunnel.size))
+        }
+        return jumpPointLinks
     }
 }
