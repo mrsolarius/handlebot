@@ -123,9 +123,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStar(star){
-        if (!await getAffiliation(star.affiliation.code)){
-            await insertUpdateAffiliation(star.affiliation)
-        }
+        await insertUpdateAffiliation(star.affiliation)
         await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger", "aggregatedEconomy", "aggregatedSize", "frostLine", "habitableZoneInner", "habitableZoneOuter", "infoUrl", "positionX", "positionY", "positionZ", "imgURL", type, status) 
             values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)
             ON CONFLICT ("codeAffiliation") DO UPDATE SET "starCode"=$1,"codeAffiliation"=$2,description=$3,"aggregatedDanger"=$4,"aggregatedEconomy"=$5,"aggregatedSize"=$6,"frostLine"=$7,"habitableZoneInner"=$8,"habitableZoneOuter"=$9,"infoUrl"=$10,"positionX"=$11,"positionY"=$12,"positionZ"=$13,"imgURL"=$14,type=$15,status=$16`,
