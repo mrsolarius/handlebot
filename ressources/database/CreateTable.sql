@@ -163,7 +163,7 @@ CREATE TABLE starMapObjects
     "distance" REAL,
     "fairChanceAct" BOOLEAN,
     "habitable" BOOLEAN,
-    "info_url" VARCHAR(256),
+    "infoURL" VARCHAR(256),
     "lat" REAL,
     "long" REAL,
     "orbitPeriod" REAL,
