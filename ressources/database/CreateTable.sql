@@ -178,6 +178,18 @@ CREATE TABLE starMapObjects
     constraint fk_sub_type foreign key ("subType") references subType ("subTypeID")
 );
 
+CREATE TABLE ObjectChild(
+    "parentStarCode" VARCHAR(45) NOT NULL,
+    "parentTypeCode" VARCHAR(45) NOT NULL,
+    "parentObjCode" VARCHAR(45) NOT NULL,
+    "childStarCode" VARCHAR(45) NOT NULL,
+    "childTypeCode" VARCHAR(45) NOT NULL,
+    "childObjCode" VARCHAR(45) NOT NULL,
+    constraint fk_star_map_object_parent foreign key ("parentStarCode","parentTypeCode","parentObjCode") references starMapObjects ("starCode","typeCode","objCode"),
+    constraint fk_star_map_object_child foreign key ("childStarCode","childTypeCode","childObjCode") references starMapObjects ("starCode","typeCode","objCode"),
+    constraint pk_object_child primary key ("parentStarCode","parentTypeCode","parentObjCode","childStarCode","childTypeCode","childObjCode")
+);
+
 CREATE TABLE jumpPointLinks(
    "entryStarCode" VARCHAR(45) NOT NULL,
    "entryTypeCode" VARCHAR(45) NOT NULL,
