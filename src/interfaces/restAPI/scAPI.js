@@ -150,5 +150,50 @@ module.exports = {
         apiJSON = JSON.parse(apiJSON)
         if(apiJSON.data)
             return apiJSON.data
+    },
+    /**
+     *
+     * @returns {Promise<Array<Affiliation>>}
+     */
+    async getAffiliations(){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/affiliations`)
+        apiJSON = JSON.parse(apiJSON)
+        let affiliations = []
+        for (const item of apiJSON.data) {
+            affiliations.push(new Affiliation(item.code,item.color,item.name))
+        }
+        return affiliations
+    },
+    /**
+     *
+     * @returns {Promise<Array<Star>>}
+     */
+    async getStarSystems(){
+        let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/star-system?json_path=$[*]`)
+        apiJSON = JSON.parse(apiJSON)
+        let StarSystems = []
+        for (const item of apiJSON.data){
+            let affiliation = new Affiliation(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
+
+            StarSystems.push(new Star(
+                item.code,
+                affiliation,
+                item.description,
+                item.aggregated_danger,
+                item.aggregated_economy,
+                item.aggregated_economy,
+                item.frost_line,
+                item.aggregated_size,
+                item.habitable_zone_inner,
+                item.habitable_zone_outer,
+                item.info_url,
+                item.position_x,
+                item.position_y,
+                item.position_x,
+                item.thumbnail.source,
+                item.type,
+                item.status));
+        }
+        return StarSystems
     }
 }
