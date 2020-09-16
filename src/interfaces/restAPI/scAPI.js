@@ -53,7 +53,7 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
             childrenArray.push(starMapObjectAPIConverterToOBJ(item))
         }
     }
-    let thumbnail = apiObject.texture.source?
+    let thumbnail = apiObject.texture?
         apiObject.texture.source
         :null
     return new StarMapObject.build(
