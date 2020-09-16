@@ -151,7 +151,6 @@ module.exports = {
                                                                    status=$16,
                                                                    "aggregatedPopulation" = $17`,
                 [star.starCode, star.affiliation.codeAffiliation, star.description, star.aggregatedDanger, star.aggregatedEconomy, star.aggregatedSize, star.frostLine, star.habitableZoneInner, star.habitableZoneOuter, star.infoUrl, star.positionX, star.positionY, star.positionZ, star.imgURL, star.type, star.status, star.aggregatedPopulation])
-        }
     },
     /**
      *
