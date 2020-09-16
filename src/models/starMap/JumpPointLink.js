@@ -24,4 +24,4 @@ class JumpPointLink {
     }
 }
 
-module.exports = JumpPointLink
+exports.build = JumpPointLink

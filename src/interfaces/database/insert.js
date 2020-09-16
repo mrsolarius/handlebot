@@ -3,7 +3,7 @@ const select = require('./select')
 const update = require('./update')
 const Organization = require('../../models/Organization')
 const User = require('../../models/User')
-const {getAffiliation} = require("./select");
+
 
 async function insertManufacture(ship){
     await db.query(`
@@ -123,13 +123,14 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStar(star){
+        const {getAffiliation} = require("./select"); //c'est vraiment super chiant que le js m'oblige à faire cette merde !!!!
         if (!await getAffiliation(star.affiliation.codeAffiliation))
             await insertUpdateAffiliation(star.affiliation)
         else
             await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger", "aggregatedEconomy", "aggregatedSize", "frostLine", "habitableZoneInner", "habitableZoneOuter", "infoUrl", "positionX", "positionY", "positionZ", "imgURL", type, status,"aggregatedPopulation") 
             values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
             ON CONFLICT ("codeAffiliation") DO UPDATE SET "starCode"=$1,"codeAffiliation"=$2,description=$3,"aggregatedDanger"=$4,"aggregatedEconomy"=$5,"aggregatedSize"=$6,"frostLine"=$7,"habitableZoneInner"=$8,"habitableZoneOuter"=$9,"infoUrl"=$10,"positionX"=$11,"positionY"=$12,"positionZ"=$13,"imgURL"=$14,type=$15,status=$16, "aggregatedPopulation" = $17`,
-            [star.starCode,star.affiliation.codeAffiliation,star.description,star.aggregatedDanger,star.aggregatedEconomy,star.aggregatedSize,star.frostLine,star.habitableZoneInner,star.habitableZoneOuter,star.infoUrl,star.positionX,star.positionY,star.positionZ,star.imgURL,star.type,star.status])
+            [star.starCode,star.affiliation.codeAffiliation,star.description,star.aggregatedDanger,star.aggregatedEconomy,star.aggregatedSize,star.frostLine,star.habitableZoneInner,star.habitableZoneOuter,star.infoUrl,star.positionX,star.positionY,star.positionZ,star.imgURL,star.type,star.status, star.aggregatedPopulation])
     },
     /**
      *

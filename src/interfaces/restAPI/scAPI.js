@@ -45,7 +45,7 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
         star = await insertUpdateStar(await getStar(key[0]))
     }
     if (!type){
-        type = await insertUpdateType(new Type(apiObject.type,apiObject.type))
+        type = await insertUpdateType(new Type.build(apiObject.type,apiObject.type))
     }
     let childrenArray = []
     if (apiObject.children){
@@ -53,10 +53,10 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
             childrenArray.push(starMapObjectAPIConverterToOBJ(item))
         }
     }
-    return new StarMapObject(
+    return new StarMapObject.build(
         star,
         type,
-        new SubType(
+        new SubType.build(
             type,
             apiObject.subtype.id,
             apiObject.subtype.name
@@ -83,11 +83,11 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
 }
 
 function starAPIConverterToOBJ(item){
-    let affiliation = new Affiliation(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
+    let affiliation = new Affiliation.build(item.affiliation[0].code,item.affiliation[0].color,item.affiliation[0].name)
     let thumbnail = item.thumbnail?
         item.thumbnail.source
         :null
-    return new Star(
+    return new Star.build(
         item.code,
         affiliation,
         item.description,
@@ -208,10 +208,8 @@ module.exports = {
         let search
         let pagesArray = new Array(0)
         do {
-            console.log('ici')
             search = await searchShipAtPage(classification, lengthMin, lengthMax, crewMin, crewMax, i)
             pagesArray.push(search)
-            console.log(i)
             i = i+1
         } while (search.length!==0)
         pagesArray.pop()
@@ -238,7 +236,7 @@ module.exports = {
         apiJSON = JSON.parse(apiJSON)
         let affiliations = []
         for (const item of apiJSON.data) {
-            affiliations.push(new Affiliation(item.code,item.color,item.name))
+            affiliations.push(new Affiliation.build(item.code,item.color,item.name))
         }
         return affiliations
     },
@@ -293,7 +291,7 @@ module.exports = {
         for (const tunnel of apiJSON.data) {
             const entryStarMapOBJ = await this.getStarMapObject(tunnel.entry.code)
             const exitStarMapOBJ = await this.getStarMapObject(tunnel.exit.code)
-            jumpPointLinks.push(new JumpPointLink(entryStarMapOBJ,exitStarMapOBJ,tunnel.name,tunnel.direction,tunnel.size))
+            jumpPointLinks.push(new JumpPointLink.build(entryStarMapOBJ,exitStarMapOBJ,tunnel.name,tunnel.direction,tunnel.size))
         }
         return jumpPointLinks
     }

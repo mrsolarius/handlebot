@@ -1,13 +1,10 @@
-const Affiliation = require('./Affiliation')
-const {insertUpdateStar} = require("../../interfaces/database/insert");
-
 class Star {
-
     starCode;
     affiliation
     description
     aggregatedDanger
     aggregatedEconomy
+    aggregatedPopulation
     frostLine
     habitableZoneInner
     habitableZoneOuter
@@ -61,9 +58,9 @@ class Star {
     }
 
     async save(){
+        const {insertUpdateStar} = require("../../interfaces/database/insert")
         await insertUpdateStar(this)
     }
-
 }
 
-module.exports = Star
+exports.build = Star

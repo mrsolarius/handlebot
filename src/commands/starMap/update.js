@@ -6,10 +6,12 @@ module.exports = async(message, lang)=>{
     await affiliations.forEach(item=>{
         item.save()
     })
+
     const stars = await getStars()
     await stars.forEach(item=>{
         item.save()
     })
+    /*
     const starMapObjects = await getStarMapObjects()
     starMapObjects.forEach(item=>{
         item.save()
@@ -18,4 +20,5 @@ module.exports = async(message, lang)=>{
     jumpPointLinks.forEach(item=>{
         item.save()
     })
+    */
 }

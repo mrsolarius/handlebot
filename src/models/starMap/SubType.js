@@ -22,4 +22,4 @@ class SubType{
     }
 }
 
-module.exports = SubType
+exports.build = SubType

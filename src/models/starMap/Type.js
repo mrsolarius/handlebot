@@ -26,4 +26,4 @@ class Type {
     }
 }
 
-module.exports = Type
+exports.build = Type

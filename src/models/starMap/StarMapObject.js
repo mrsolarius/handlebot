@@ -88,4 +88,4 @@ class StarMapObject {
     }
 }
 
-module.exports = StarMapObject
+exports.build = StarMapObject

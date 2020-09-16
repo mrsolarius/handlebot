@@ -232,7 +232,7 @@ module.exports = {
             where "codeAffiliation" = $1
         `,[affiliationCode])
         if (data.rowCount!==0)
-            return new Affiliation(data.rows[0].codeAffiliation,data.rows[0].colorAffiliation,data.rows[0].name)
+            return new Affiliation.build(data.rows[0].codeAffiliation,data.rows[0].colorAffiliation,data.rows[0].name)
         else
             return false
     },
@@ -243,7 +243,7 @@ module.exports = {
             where "typeCode" = $1
         `,[typeCode])
         if (data.rowCount!==0)
-            return new Type(data.rows[0].typeCode,data.rows[0].nomType)
+            return new Type.build(data.rows[0].typeCode,data.rows[0].nomType)
         else
             return false
     },
@@ -255,9 +255,9 @@ module.exports = {
             where "starCode" = $1
         `,[starCode])
         if (data.rowCount!==0)
-            return new Star(
+            return new Star.build(
                 data.rows[0].starCode,
-                new Affiliation(
+                new Affiliation.build(
                     data.rows[0].codeAffiliation,
                     data.rows[0].colorAffiliation,
                     data.rows[0].name

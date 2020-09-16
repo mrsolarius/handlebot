@@ -1,5 +1,6 @@
 const {insertUpdateAffiliation} = require("../../interfaces/database/insert");
 
+
 class Affiliation {
     /**
      *
@@ -18,4 +19,4 @@ class Affiliation {
     }
 }
 
-module.exports = Affiliation
+exports.build = Affiliation;
