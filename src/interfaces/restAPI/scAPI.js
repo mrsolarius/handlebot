@@ -1,13 +1,11 @@
 const get = require('../../utils/xhrRequest')
 const log = require("../../utils/logger");
-const {getStar,getType} = require("../database/select");
 const Affiliation = require("../../models/starMap/Affiliation");
 const SubType = require("../../models/starMap/SubType");
 const Star = require("../../models/starMap/Star");
 const Type = require("../../models/starMap/Type");
 const StarMapObject = require("../../models/starMap/StarMapObject");
 const JumpPointLink = require("../../models/starMap/JumpPointLink");
-const {insertUpdateStar,insertUpdateType} = require("../database/insert");
 //const User = require('../../models/User')
 //const Organization = require('../../models/Organization')
 
@@ -38,6 +36,8 @@ async function searchShipAtPage(classification,lengthMin,lengthMax,crewMin,crewM
 }
 
 async function starMapObjectAPIConverterToOBJ(apiObject){
+    const {insertUpdateStar,insertUpdateType} = require("../database/insert");// bas oui c'est normal de mettre les import ici PT1
+    const {getStar,getType} = require("../database/select"); //VRAIMENT LE JS ME SAOUL POUR CETTE CHOSE !!!!!!
     const key = apiObject.code.split('.')
     let star = await getStar(key[0])
     let type = await getType(key[1])

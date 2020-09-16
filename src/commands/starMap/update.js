@@ -11,11 +11,12 @@ module.exports = async(message, lang)=>{
     await stars.forEach(item=>{
         item.save()
     })
-    /*
+
     const starMapObjects = await getStarMapObjects()
     starMapObjects.forEach(item=>{
         item.save()
     })
+    /*
     const jumpPointLinks = await getJumpPointLinks()
     jumpPointLinks.forEach(item=>{
         item.save()
