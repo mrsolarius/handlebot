@@ -1,5 +1,10 @@
 const {insertUpdateType} = require("../../interfaces/database/insert");
 
+/**
+ *
+ * @param {string} str
+ * @return {string}
+ */
 function titleCase(str) {
     let splitStr = str.toLowerCase().split(new RegExp('\\b(' + [' ','-','_'].join('|') + ')\\b' , "g"));
     for (let i = 0; i < splitStr.length; i++) {

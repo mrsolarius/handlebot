@@ -248,13 +248,14 @@ module.exports = {
             return false
     },
     async getSubType(id) {
+        const {getType} = require('./select') // J'AI JAMMAIS VUE UN TRUC AUSSI STUPIDE PT1
         let data = await db.query(`
             SELECT *
             FROM subtype
             where "subTypeID" = $1
         `, [id])
         if (data.rowCount !== 0)
-            return new Type.build(await this.getType(data.rows[0].typeCode), data.rows[0].subTypeID, data.rows[0].nomSubType)
+            return new SubType.build(await getType(data.rows[0].typeCode), data.rows[0].subTypeID, data.rows[0].nomSubType)
         else
             return false
     },

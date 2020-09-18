@@ -41,8 +41,11 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
     const key = apiObject.code.split('.')
     let star = await getStar(key[0])
     let type = await getType(key[1])
-    let subType = await getSubType(apiObject.subtype.id)
-    console.log(type+' '+key[1])
+    let subType = null
+    apiObject.subtype?
+        subType = await getSubType(apiObject.subtype.id)
+        :null
+
     if (!star){
         star = await getStar(await getStar(key[0]))
     }
@@ -50,7 +53,7 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
         type = new Type.build(key[1],apiObject.type)
         await insertUpdateType(type)
     }
-    if (!subType){
+    if (!subType && subType!== null){
         subType = new SubType.build(type,apiObject.subtype.id,apiObject.subtype.name)
         await insertUpdateSubType(subType)
     }

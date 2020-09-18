@@ -3,6 +3,7 @@ const select = require('./select')
 const update = require('./update')
 const Organization = require('../../models/Organization')
 const User = require('../../models/User')
+const {getSubType} = require("./select");
 const {getType} = require("./select");
 const {getStars} = require("../restAPI/scAPI");
 
@@ -127,33 +128,40 @@ module.exports = {
     async insertUpdateStar(star){
         const {getAffiliation} = require("./select"); //c'est vraiment super chiant que le js m'oblige à faire cette merde !!!!
         const affiliation = star.affiliation
+        const type = star.type
         if (!await getAffiliation(affiliation.codeAffiliation))
             await this.insertUpdateAffiliation(star.affiliation)
-        else
-            await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger",
-                                               "aggregatedEconomy", "aggregatedSize", "frostLine",
-                                               "habitableZoneInner", "habitableZoneOuter", "infoUrl", "positionX",
-                                               "positionY", "positionZ", "imgURL", type, status,
-                                               "aggregatedPopulation")
-                            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-                            ON CONFLICT ("starCode") DO UPDATE SET "starCode"=$1,
-                                                                   "codeAffiliation"=$2,
-                                                                   description=$3,
-                                                                   "aggregatedDanger"=$4,
-                                                                   "aggregatedEconomy"=$5,
-                                                                   "aggregatedSize"=$6,
-                                                                   "frostLine"=$7,
-                                                                   "habitableZoneInner"=$8,
-                                                                   "habitableZoneOuter"=$9,
-                                                                   "infoUrl"=$10,
-                                                                   "positionX"=$11,
-                                                                   "positionY"=$12,
-                                                                   "positionZ"=$13,
-                                                                   "imgURL"=$14,
-                                                                   type=$15,
-                                                                   status=$16,
-                                                                   "aggregatedPopulation" = $17`,
-                [star.starCode, star.affiliation.codeAffiliation, star.description, star.aggregatedDanger, star.aggregatedEconomy, star.aggregatedSize, star.frostLine, star.habitableZoneInner, star.habitableZoneOuter, star.infoUrl, star.positionX, star.positionY, star.positionZ, star.imgURL, star.type, star.status, star.aggregatedPopulation])
+        else {
+            try {
+                await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger",
+                                                   "aggregatedEconomy", "aggregatedSize", "frostLine",
+                                                   "habitableZoneInner", "habitableZoneOuter", "infoUrl", "positionX",
+                                                   "positionY", "positionZ", "imgURL", type, status,
+                                                   "aggregatedPopulation")
+                                values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+                                ON CONFLICT ("starCode") DO UPDATE SET "starCode"=$1,
+                                                                       "codeAffiliation"=$2,
+                                                                       description=$3,
+                                                                       "aggregatedDanger"=$4,
+                                                                       "aggregatedEconomy"=$5,
+                                                                       "aggregatedSize"=$6,
+                                                                       "frostLine"=$7,
+                                                                       "habitableZoneInner"=$8,
+                                                                       "habitableZoneOuter"=$9,
+                                                                       "infoUrl"=$10,
+                                                                       "positionX"=$11,
+                                                                       "positionY"=$12,
+                                                                       "positionZ"=$13,
+                                                                       "imgURL"=$14,
+                                                                       type=$15,
+                                                                       status=$16,
+                                                                       "aggregatedPopulation" = $17`,
+                    [star.starCode, star.affiliation.codeAffiliation, star.description, star.aggregatedDanger, star.aggregatedEconomy, star.aggregatedSize, star.frostLine, star.habitableZoneInner, star.habitableZoneOuter, star.infoUrl, star.positionX, star.positionY, star.positionZ, star.imgURL, type.typeCode, star.status, star.aggregatedPopulation])
+            }catch (e) {
+                console.log('Insert Star')
+                console.error(e)
+            }
+        }
     },
     /**
      *
@@ -173,10 +181,16 @@ module.exports = {
      */
     async insertUpdateSubType(subType){
         const type = subType.type
-        await db.query(`Insert into subtype ("subTypeID", "typeCode", "nomSubType")
-            values ($1,$2,$3)
-            on conflict ("typeCode") do update set "subTypeID"= $1, "typeCode" = $2, "nomSubType" = $3`,
-            [subType.subTypeID,subType.nomSubType,type.typeCode])
+        try {
+            await db.query(`Insert into subtype ("subTypeID", "typeCode", "nomSubType")
+                            values ($1, $2, $3)
+                            on conflict ("subTypeID") do update set "subTypeID"= $1,
+                                                                    "typeCode" = $2,
+                                                                    "nomSubType" = $3`,
+                [subType.subTypeID, type.typeCode,subType.nomSubType,])
+        }catch (e) {
+            console.error(e)
+        }
     },
     /**
      *
@@ -184,14 +198,19 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStarMapObject(starMapObject){
-        console.log(starMapObject)
-        if (!await getStars(starMapObject.star.code)){
-            await insertUpdateStar(starMapObject.star)
+        const star = starMapObject.star
+        const type = starMapObject.type
+        const subType = starMapObject.subType
+        console.log(star)
+        if (!await getStars(star.code)){
+            await insertUpdateStar(star)
         }
-        if (!await getType(starMapObject.type.typeCode)){
-            await insertUpdateAffiliation(starMapObject.type)
+        if (!await getType(type.typeCode)){
+            await insertUpdateAffiliation(type)
         }
-        await getType(starMapObject.type.typeCode)
+        if (!await getSubType(subType.id)){
+            await insertUpdateSubType(subType)
+        }
         try {
             await db.query(`Insert Into starmapobjects ("starCode", "typeCode", "objCode", appearance, "subType",
                                                         "axialTilt", name, description, designation, distance,
@@ -218,9 +237,9 @@ module.exports = {
                                                                                         "sensorPopulation"=$19,
                                                                                         size=$20,
                                                                                         "imgURL"=$21`,
-                [starMapObject.star.starCode, starMapObject.type.typeCode, starMapObject.objCode, starMapObject.appearance, starMapObject.axialTilt, starMapObject.name, starMapObject.description, starMapObject.designation, starMapObject.distance, starMapObject.fairChanceAct, starMapObject.habitable, starMapObject.infoURL, starMapObject.lat, starMapObject.long, starMapObject.orbitPeriod, starMapObject.sensorDanger, starMapObject.sensorEconomy, starMapObject.sensorPopulation, starMapObject.size, starMapObject.infoURL])
+                [star.starCode, type.typeCode, starMapObject.objCode, starMapObject.appearance, subType.subTypeID,starMapObject.axialTilt, starMapObject.name, starMapObject.description, starMapObject.designation, starMapObject.distance, starMapObject.fairChanceAct, starMapObject.habitable, starMapObject.infoURL, starMapObject.lat, starMapObject.long, starMapObject.orbitPeriod, starMapObject.sensorDanger, starMapObject.sensorEconomy, starMapObject.sensorPopulation, starMapObject.size, starMapObject.infoURL])
             }catch (e) {
-
+                console.log('là')
                 console.log(e)
             }
         },
