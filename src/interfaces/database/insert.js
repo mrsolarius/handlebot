@@ -3,6 +3,8 @@ const select = require('./select')
 const update = require('./update')
 const Organization = require('../../models/Organization')
 const User = require('../../models/User')
+const {getType} = require("./select");
+const {getStars} = require("../restAPI/scAPI");
 
 
 async function insertManufacture(ship){
@@ -124,8 +126,9 @@ module.exports = {
      */
     async insertUpdateStar(star){
         const {getAffiliation} = require("./select"); //c'est vraiment super chiant que le js m'oblige à faire cette merde !!!!
-        if (!await getAffiliation(star.affiliation.codeAffiliation))
-            await insertUpdateAffiliation(star.affiliation)
+        const affiliation = star.affiliation
+        if (!await getAffiliation(affiliation.codeAffiliation))
+            await this.insertUpdateAffiliation(star.affiliation)
         else
             await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger",
                                                "aggregatedEconomy", "aggregatedSize", "frostLine",
@@ -182,6 +185,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStarMapObject(starMapObject){
+        console.log(starMapObject.star)
         if (!await getStars(starMapObject.star.code)){
             await insertUpdateStar(starMapObject.star)
         }

@@ -42,7 +42,7 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
     let star = await getStar(key[0])
     let type = await getType(key[1])
     if (!star){
-        star = await insertUpdateStar(await getStar(key[0]))
+        star = await getStar(await getStar(key[0]))
     }
     if (!type){
         type = await insertUpdateType(new Type.build(apiObject.type,apiObject.type))
@@ -50,20 +50,19 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
     let childrenArray = []
     if (apiObject.children){
         for(const item of apiObject.children){
-            childrenArray.push(starMapObjectAPIConverterToOBJ(item))
+            childrenArray.push(await starMapObjectAPIConverterToOBJ(item))
         }
     }
     let thumbnail = apiObject.texture?
         apiObject.texture.source
         :null
+    let subType = apiObject.subtype?
+        apiObject.subtype
+        :null
     return new StarMapObject.build(
         star,
         type,
-        new SubType.build(
-            type,
-            apiObject.subtype.id,
-            apiObject.subtype.name
-        ),
+        subType,
         key[key.length-1],
         apiObject.appearance,
         apiObject.axialTilt,
@@ -274,14 +273,14 @@ module.exports = {
         apiJSON = JSON.parse(apiJSON)
         let starMapObjects = []
         for (let SMO of apiJSON.data){
-            starMapObjects.push(starMapObjectAPIConverterToOBJ(SMO))
+            starMapObjects.push(await starMapObjectAPIConverterToOBJ(SMO))
         }
         return starMapObjects
     },
     async getStarMapObject(fullCode){
         let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/object?json_path=$[?(@.code="${fullCode}")]`)
         apiJSON = JSON.parse(apiJSON)
-        return starMapObjectAPIConverterToOBJ(apiJSON.data)
+        return await starMapObjectAPIConverterToOBJ(apiJSON.data)
     },
     /**
      *

@@ -1,8 +1,6 @@
 const Star = require('./Star')
 const Type = require('./Type')
 const SubType = require('./SubType')
-const {insertChildObject} = require("../../interfaces/database/insert");
-const {insertUpdateStarMapObject} = require("../../interfaces/database/insert");
 
 class StarMapObject {
     star
@@ -78,6 +76,7 @@ class StarMapObject {
     }
 
     async save(){
+        const {insertChildObject,insertUpdateStarMapObject} = require("../../interfaces/database/insert");
         const parent = this
         await insertUpdateStarMapObject(this)
         await this.childs.forEach(value => {
