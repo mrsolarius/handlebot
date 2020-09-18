@@ -79,11 +79,12 @@ class StarMapObject {
         const {insertChildObject,insertUpdateStarMapObject} = require("../../interfaces/database/insert");
         const parent = this
         await insertUpdateStarMapObject(this)
+        /*
         await this.childs.forEach(value => {
             value.save().then(v=>{
                 insertChildObject(parent,value)
             })
-        })
+        })*/
     }
 }
 

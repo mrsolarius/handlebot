@@ -247,6 +247,17 @@ module.exports = {
         else
             return false
     },
+    async getSubType(id) {
+        let data = await db.query(`
+            SELECT *
+            FROM subtype
+            where "subTypeID" = $1
+        `, [id])
+        if (data.rowCount !== 0)
+            return new Type.build(await this.getType(data.rows[0].typeCode), data.rows[0].subTypeID, data.rows[0].nomSubType)
+        else
+            return false
+    },
     async getStar(starCode){
         let data = await db.query(`
             SELECT *

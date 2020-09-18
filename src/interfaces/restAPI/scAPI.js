@@ -36,16 +36,23 @@ async function searchShipAtPage(classification,lengthMin,lengthMax,crewMin,crewM
 }
 
 async function starMapObjectAPIConverterToOBJ(apiObject){
-    const {insertUpdateStar,insertUpdateType} = require("../database/insert");// bas oui c'est normal de mettre les import ici PT1
-    const {getStar,getType} = require("../database/select"); //VRAIMENT LE JS ME SAOUL POUR CETTE CHOSE !!!!!!
+    const {insertUpdateStar,insertUpdateType,insertUpdateSubType} = require("../database/insert");// bas oui c'est normal de mettre les import ici PT1
+    const {getStar,getType,getSubType} = require("../database/select"); //VRAIMENT LE JS ME SAOUL POUR CETTE CHOSE !!!!!!
     const key = apiObject.code.split('.')
     let star = await getStar(key[0])
     let type = await getType(key[1])
+    let subType = await getSubType(apiObject.subtype.id)
+    console.log(type+' '+key[1])
     if (!star){
         star = await getStar(await getStar(key[0]))
     }
     if (!type){
-        type = await insertUpdateType(new Type.build(apiObject.type,apiObject.type))
+        type = new Type.build(key[1],apiObject.type)
+        await insertUpdateType(type)
+    }
+    if (!subType){
+        subType = new SubType.build(type,apiObject.subtype.id,apiObject.subtype.name)
+        await insertUpdateSubType(subType)
     }
     let childrenArray = []
     if (apiObject.children){
@@ -55,9 +62,6 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
     }
     let thumbnail = apiObject.texture?
         apiObject.texture.source
-        :null
-    let subType = apiObject.subtype?
-        apiObject.subtype
         :null
     return new StarMapObject.build(
         star,
