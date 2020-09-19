@@ -8,6 +8,7 @@ module.exports = {
      * @return {Promise<*|HTMLTableRowElement|string>}
      */
     async getUserFromDiscordID(discordID){
+        const {getUserLangFromUserID} = require('./select')
         let returnUser = {}
         let data = await db.query(`
             SELECT * 
@@ -15,7 +16,7 @@ module.exports = {
             FULL OUTER JOIN organizations on organizations."organizationSID" = users."organizationSID"
             WHERE "discordID" = $1`,[discordID]);
         returnUser = data.rows[0]
-        returnUser.lang = await this.getUserLangFromUserID(returnUser.userID)
+        returnUser.lang = await getUserLangFromUserID(returnUser.userID)
         return returnUser
     },
     /**
@@ -51,6 +52,18 @@ module.exports = {
             return true
         }else {
             return log.warn('Un iddiscord est enregistrer plus de une fois dans la BDD ce n\'est normalement pas possible')
+        }
+    },
+    async referralExist(referral){
+        let data = await db.query(`
+            SELECT count(*) 
+            FROM USERS 
+            WHERE referral = $1`,[referral]);
+        let count = parseInt(data.rows[0].count,10)
+        if (count===0){
+            return false
+        }else if(count===1){
+            return true
         }
     },
     /**
@@ -217,6 +230,15 @@ module.exports = {
             return false
         }else {
             return data.rows[0].langID
+        }
+    },
+    async getRandomUserWithReferral(){
+        const {getUserFromDiscordID} = require('./select')
+        let data = await db.query(`select "discordID" from users where referral is not null order by random()`)
+        if (data.rowCount===0){
+            return false
+        }else{
+            return await getUserFromDiscordID(data.rows[0].discordID)
         }
     }
 }

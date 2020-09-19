@@ -22,7 +22,7 @@ module.exports = async (message,lang) => {
                 return await message.channel.send(`⚠ **${lang.trad.err_you_not_in_org}**`)
             }
         } else {
-            return await message.channel.send(`⚠ **${lang.trad.handle_not_associate_1} : \`${prefix}handle set ${lang.trad.your_handle_cmd}\` ${lang.trad.handle_not_associate_2} **`)
+            return await message.channel.send(`⚠ **${lang.trad.handle_not_associate_1} : \`${prefix}handle set ${lang.trad.your_handle_cmd}\` ${lang.trad.to_associate_one} **`)
         }
     }
     if (contentArray.length >= 2){

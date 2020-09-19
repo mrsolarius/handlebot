@@ -19,6 +19,8 @@ module.exports = async (message, user,lang) => {
         newMessage.addField(lang.trad.lang_speak, user.lang.join(), true);
     if (user.organizationSID)
         newMessage.addField(lang.trad.org, `*${lang.trad.org} :* ${user.organizationSID}\n*${lang.trad.rank} :* ${user.organizationRank}`, true);
+    if (user.referral)
+        newMessage.addField(lang.trad.referral_code,user.referral,true)
     if (user.bio)
         newMessage.addField(lang.trad.biographies, user.bio);
     newMessage.setColor('#1681a5');

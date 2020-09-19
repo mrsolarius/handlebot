@@ -44,6 +44,8 @@ CREATE TABLE users
     "country"          varchar(50),
     "region"           varchar(50),
     "website"          varchar(256),
+    "referral"         char(14) unique,
+    "referralPrint"    int,
     constraint FK_Organization foreign key ("organizationSID") references organizations("organizationSID"),
     constraint PK_user primary key ("userID")
 );
