@@ -6,6 +6,7 @@ const User = require('../models/User')
 const select = require('../interfaces/database/select')
 const update = require('../interfaces/database/update')
 const del = require('../interfaces/database/delete')
+const {getUser} = require("../interfaces/restAPI/scAPI");
 
 /**
  * @param {import('discord.js').Message} message
@@ -19,7 +20,7 @@ module.exports = async (message,lang) => {
     if (contentArray.length===1){
         let user = await User.tryGetUserFromDiscord(message.author.id)
         if (user) {
-            return Promise.all([handleProfile(message, user, lang),update.updateUser(user)])
+            return Promise.all([handleProfile(message, user, lang),update.updateUser(await User.tryGetUserFromHandle(user.handle, true))])
         } else {
             return await message.channel.send(`⚠ **${lang.trad.handle_not_associate_1} : \`${prefix}handle set ${lang.trad.your_handle_cmd}\` ${lang.trad.handle_not_associate_2} **`)
         }
@@ -51,14 +52,14 @@ module.exports = async (message,lang) => {
                     if (message.mentions.members.array().length === 1) {
                         let user = await User.tryGetUserFromDiscord(message.mentions.members.first().id)
                         if (user) {
-                            return Promise.all([handleProfile(message, user, lang),update.updateUser(user)])
+                            return Promise.all([handleProfile(message, user, lang),update.updateUser(await User.tryGetUserFromHandle(user.handle, true))])
                         } else {
                             return await message.channel.send(`⚠ **${lang.trad.member_no_handle}**`)
                         }
                     } else {
                         let user = await User.tryGetUserFromHandle(contentArray[1])
                         if (user) {
-                            return Promise.all([handleProfile(message, user, lang),update.updateUser(user)])
+                            return Promise.all([handleProfile(message, user, lang),update.updateUser(await User.tryGetUserFromHandle(user.handle, true))])
                         } else {
                             return await message.channel.send(`⚠ **${lang.trad.handle_not_exist}**`)
                         }
