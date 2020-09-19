@@ -28,7 +28,7 @@ class User {
      * @param {String} handle
      * @param {boolean} forceAPI
      */
-    static async tryGetUserFromHandle(handle,@null forceAPI = false){
+    static async tryGetUserFromHandle(handle,forceAPI = false){
         let returnUser = new User()
         if (forceAPI||!await select.isRegisterFromHandle(handle)){
             returnUser = await scapi.getUser(handle)
