@@ -292,5 +292,59 @@ module.exports = {
                 )
         else
             return false
+    },
+    async getStarMapObject(starMapCode){
+        const {getStarMapObject,getStar,getType,getSubType} = require('./select')
+        starMapCode = starMapCode.split('.')
+        const star = await getStar(starMapCode[0])
+        const type = await getType(starMapCode[1])
+        const data = await db.query(`
+            SELECT *
+            FROM starmapobjects
+            where "starCode" = $1 and "typeCode" = $2 and "objCode"=$3
+        `,starMapCode)
+        if (data.rowCount===0)return false
+        let subType = null
+        if (data.rows[0].subType){
+            subType = await getSubType(data.rows[0].subType)
+        }
+        const childObj = await db.query(`
+            SELECT *
+            FROM objectchild
+            where "parentStarCode" = $1 and "parentTypeCode" = $2 and "parentObjCode"=$3
+        `,starMapCode)
+        let childObjArray = []
+        if (childObj.rowCount!==0){
+            await childObj.rows.forEach(value => {
+                const code = [value.starCode,value.typeCode,value.objCode]
+                getStarMapObject(code.join('.')).then(item =>{
+                    childObjArray.push(item)
+                })
+            })
+        }
+        return new StarMapObject.build(
+            star,
+            type,
+            subType,
+            data.rows[0].objCode,
+            data.rows[0].appearance,
+            data.rows[0].axialTil,
+            data.rows[0].name,
+            data.rows[0].description,
+            data.rows[0].designation,
+            data.rows[0].distance,
+            data.rows[0].fairChanceAct,
+            data.rows[0].habitable,
+            data.rows[0].infoURL,
+            data.rows[0].lat,
+            data.rows[0].long,
+            data.rows[0].orbitPeriod,
+            data.rows[0].sensorDanger,
+            data.rows[0].sensorEconomy,
+            data.rows[0].sensorPopulation,
+            data.rows[0].size,
+            data.rows[0].imgURL,
+            childObjArray
+        )
     }
 }

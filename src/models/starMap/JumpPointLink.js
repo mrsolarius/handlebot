@@ -1,5 +1,3 @@
-const {insertJumpPointLink} = require("../../interfaces/database/insert");
-
 class JumpPointLink {
     /**
      *
@@ -18,8 +16,7 @@ class JumpPointLink {
     }
 
     async save(){
-        await insertUpdateStarMapObject(this.entryStarMapObject)
-        await insertUpdateStarMapObject(this.exitStarMapObject)
+        const {insertJumpPointLink} = require("../../interfaces/database/insert");
         await insertJumpPointLink(this)
     }
 }

@@ -204,7 +204,6 @@ module.exports = {
         const star = starMapObject.star
         const type = starMapObject.type
         let subType = starMapObject.subType
-        console.log(starMapObject)
         if (!await getStar(star.code).catch(e=>{console.log(e)})){
             console.log('insersion d\'une étoile')
             await insertUpdateStar(star)
@@ -222,7 +221,7 @@ module.exports = {
             subType = {}
             subType.subTypeID = null
         }
-        console.log('insertion en préparation')
+        console.log('insertion en starmap obj')
         try {
             await db.query(`Insert Into starmapobjects ("starCode", "typeCode", "objCode", appearance, "subType",
                                                         "axialTilt", name, description, designation, distance,
@@ -251,7 +250,6 @@ module.exports = {
                                                                                         "imgURL"=$21`,
                 [star.starCode, type.typeCode, starMapObject.objCode, starMapObject.appearance, subType.subTypeID,starMapObject.axialTilt, starMapObject.name, starMapObject.description, starMapObject.designation, starMapObject.distance, starMapObject.fairChanceAct, starMapObject.habitable, starMapObject.infoURL, starMapObject.lat, starMapObject.long, starMapObject.orbitPeriod, starMapObject.sensorDanger, starMapObject.sensorEconomy, starMapObject.sensorPopulation, starMapObject.size, starMapObject.infoURL])
             }catch (e) {
-                console.log('là')
                 console.log(starMapObject)
                 console.log(e)
             }
@@ -263,6 +261,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertChildObject(starMapObjectParent, starMapObjectChild){
+        console.log('Insertion child obj')
         await db.query(`insert into objectchild ("parentStarCode", "parentTypeCode", "parentObjCode", "childStarCode", "childTypeCode", "childObjCode") 
             values ($1,$2,$3,$4,$5,$6)
             on CONFLICT ("parentStarCode", "parentTypeCode", "parentObjCode", "childStarCode", "childTypeCode", "childObjCode") do nothing `,
@@ -274,10 +273,19 @@ module.exports = {
      * @param {JumpPointLink} jumpPointLink
      * @returns {Promise<void>}
      */
-    async insertJumpPointLink(jumpPointLink){
-        await db.query(`insert into jumppointlinks ("entryStarCode", "entryTypeCode", "entryObjCode", "exitStarCode", "exitTypeCode", "exitObjCode", name, direction, size) 
-            values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-            on CONFLICT ("entryStarCode", "entryTypeCode", "entryObjCode", "exitStarCode", "exitTypeCode", "exitObjCode") do nothing `,
-            [jumpPointLink.entryStarMapObject.star.starCode,jumpPointLink.entryStarMapObject.type.typeCode,jumpPointLink.entryStarMapObject.objCode,jumpPointLink.exitStarMapObject.star.starCode,jumpPointLink.exitStarMapObject.type.typeCode,jumpPointLink.exitStarMapObject.objCode,jumpPointLink.name,jumpPointLink.direction,jumpPointLink.size])
+    async insertJumpPointLink(jumpPointLink) {
+        console.log('Insertion jumpointlinks')
+        try {
+            await db.query(`insert into jumppointlinks ("entryStarCode", "entryTypeCode", "entryObjCode",
+                                                        "exitStarCode", "exitTypeCode", "exitObjCode", name, direction,
+                                                        size)
+                            values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                            on CONFLICT ("entryStarCode", "entryTypeCode", "entryObjCode", "exitStarCode", "exitTypeCode", "exitObjCode") do nothing `,
+                [jumpPointLink.entryStarMapObject.star.starCode, jumpPointLink.entryStarMapObject.type.typeCode, jumpPointLink.entryStarMapObject.objCode, jumpPointLink.exitStarMapObject.star.starCode, jumpPointLink.exitStarMapObject.type.typeCode, jumpPointLink.exitStarMapObject.objCode, jumpPointLink.name, jumpPointLink.direction, jumpPointLink.size])
+
+        }catch (e) {
+            console.log(jumpPointLink)
+            console.log(e)
+        }
     }
 }

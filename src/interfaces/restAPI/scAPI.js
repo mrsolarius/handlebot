@@ -294,12 +294,13 @@ module.exports = {
      * @return {Promise<Array<JumpPointLink>>}
      */
     async getJumpPointLinks(){
+        const {getStarMapObject} = require('../database/select')
         let apiJSON = await get(`https://api.starcitizen-api.com/${process.env.APIKEY_SC}/v1/cache/starmap/tunnels`)
         apiJSON = JSON.parse(apiJSON)
         let jumpPointLinks = []
         for (const tunnel of apiJSON.data) {
-            const entryStarMapOBJ = await this.getStarMapObject(tunnel.entry.code)
-            const exitStarMapOBJ = await this.getStarMapObject(tunnel.exit.code)
+            const entryStarMapOBJ = await getStarMapObject(tunnel.entry.code)
+            const exitStarMapOBJ = await getStarMapObject(tunnel.exit.code)
             jumpPointLinks.push(new JumpPointLink.build(entryStarMapOBJ,exitStarMapOBJ,tunnel.name,tunnel.direction,tunnel.size))
         }
         return jumpPointLinks
