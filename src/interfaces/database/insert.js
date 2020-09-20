@@ -126,11 +126,11 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStar(star){
+        const {insertUpdateAffiliation} = require('./insert')
         const {getAffiliation} = require("./select"); //c'est vraiment super chiant que le js m'oblige à faire cette merde !!!!
         const affiliation = star.affiliation
-        const type = star.type
         if (!await getAffiliation(affiliation.codeAffiliation))
-            await this.insertUpdateAffiliation(star.affiliation)
+            await insertUpdateAffiliation(star.affiliation)
         else {
             try {
                 await db.query(`INSERT INTO stars ("starCode", "codeAffiliation", description, "aggregatedDanger",
@@ -156,9 +156,10 @@ module.exports = {
                                                                        type=$15,
                                                                        status=$16,
                                                                        "aggregatedPopulation" = $17`,
-                    [star.starCode, star.affiliation.codeAffiliation, star.description, star.aggregatedDanger, star.aggregatedEconomy, star.aggregatedSize, star.frostLine, star.habitableZoneInner, star.habitableZoneOuter, star.infoUrl, star.positionX, star.positionY, star.positionZ, star.imgURL, type.typeCode, star.status, star.aggregatedPopulation])
+                    [star.starCode, star.affiliation.codeAffiliation, star.description, star.aggregatedDanger, star.aggregatedEconomy, star.aggregatedSize, star.frostLine, star.habitableZoneInner, star.habitableZoneOuter, star.infoUrl, star.positionX, star.positionY, star.positionZ, star.imgURL, star.type, star.status, star.aggregatedPopulation])
             }catch (e) {
                 console.log('Insert Star')
+                console.log(star)
                 console.error(e)
             }
         }
@@ -198,19 +199,30 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async insertUpdateStarMapObject(starMapObject){
+        const {getType,getSubType,getStar} = require("./select");
+        const {insertUpdateSubType,insertUpdateType,insertUpdateStar} = require('./insert')
         const star = starMapObject.star
         const type = starMapObject.type
-        const subType = starMapObject.subType
-        console.log(star)
-        if (!await getStars(star.code)){
+        let subType = starMapObject.subType
+        console.log(starMapObject)
+        if (!await getStar(star.code).catch(e=>{console.log(e)})){
+            console.log('insersion d\'une étoile')
             await insertUpdateStar(star)
         }
-        if (!await getType(type.typeCode)){
-            await insertUpdateAffiliation(type)
+        if (!await getType(type.typeCode).catch(e=>{console.log(e)})){
+            console.log('insersion d\'un type')
+            await insertUpdateType(type)
         }
-        if (!await getSubType(subType.id)){
-            await insertUpdateSubType(subType)
+        if (subType) {
+            if (!await getSubType(subType.subTypeID).catch(e=>{console.log(e)})) {
+                console.log('insersion d\'un subtype')
+                await insertUpdateSubType(subType)
+            }
+        }else {
+            subType = {}
+            subType.subTypeID = null
         }
+        console.log('insertion en préparation')
         try {
             await db.query(`Insert Into starmapobjects ("starCode", "typeCode", "objCode", appearance, "subType",
                                                         "axialTilt", name, description, designation, distance,
@@ -240,6 +252,7 @@ module.exports = {
                 [star.starCode, type.typeCode, starMapObject.objCode, starMapObject.appearance, subType.subTypeID,starMapObject.axialTilt, starMapObject.name, starMapObject.description, starMapObject.designation, starMapObject.distance, starMapObject.fairChanceAct, starMapObject.habitable, starMapObject.infoURL, starMapObject.lat, starMapObject.long, starMapObject.orbitPeriod, starMapObject.sensorDanger, starMapObject.sensorEconomy, starMapObject.sensorPopulation, starMapObject.size, starMapObject.infoURL])
             }catch (e) {
                 console.log('là')
+                console.log(starMapObject)
                 console.log(e)
             }
         },

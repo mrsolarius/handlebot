@@ -47,7 +47,7 @@ async function starMapObjectAPIConverterToOBJ(apiObject){
         :null
 
     if (!star){
-        star = await getStar(await getStar(key[0]))
+        star = await getStar(key[0])
     }
     if (!type){
         type = new Type.build(key[1],apiObject.type)
