@@ -209,9 +209,10 @@
   "referral_status": "Status of your referral code",
   "referral_number_print": "Number of prints",
   "referral_show": "A was seen",
-  "no_referral": "Unable to display a random sponsorship code because none are registered",
-  "referral_help_desc": "The referral command allows you to register your sponsorship code, but also to retrieve those of others randomly.",
-  "referral_help_random": "Display a random sponsorship code among those registered",
-  "referral_help_set": "To register your sponsorship code",
-  "referral_help_status": "Show the status of your sponsorship code"
+  "no_referral": "Unable to display a random referral code because none are registered",
+  "referral_help_desc": "The referral command allows you to register your referral code, but also to retrieve those of others randomly.",
+  "referral_help_random": "Display a random referral code among those registered",
+  "referral_help_set": "To register your referral code",
+  "referral_help_status": "Show the status of your referral code",
+  "referral_help": "Show help for all commands related to referral codes"
 }

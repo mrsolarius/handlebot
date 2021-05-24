@@ -19,6 +19,7 @@ module.exports = async (message,lang) => {
     starCitizen.addField(prefix+"handle help", "```css\n"+lang.trad.handle_help+"\n```", true);
     starCitizen.addField(prefix+"corp help", "```css\n"+lang.trad.corp_help+"\n```", true);
     starCitizen.addField(prefix+"ship help", "```css\n"+lang.trad.ship_help+"\n```", true);
+    starCitizen.addField(prefix+"referral help", "```css\n"+lang.trad.referral_help+"\n```", true);
     starCitizen.addField(prefix+"scstats", "```css\n"+lang.trad.sc_stat_help+"\n```", true);
 
     await message.channel.send(aide)
