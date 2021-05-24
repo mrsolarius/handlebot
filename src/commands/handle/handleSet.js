@@ -5,7 +5,6 @@ const select = require('../../interfaces/database/select')
 const insert = require('../../interfaces/database/insert')
 const scapi = require("../../interfaces/restAPI/scAPI")
 
-
 /**
  *
  * @param {import('discord.js').Message} message
@@ -25,15 +24,15 @@ module.exports = async (message,handle,lang,prefix) => {
                     await insert.insertOrganisation(await Organization.tryGetOrganizationFromSID(user.organizationSID))
                 }
                 await insert.insertUser(user)
-                return await message.channel.send(`✅ **${lang.trad.handle_success_associate} \`${prefix}handle\`${lang.trad.to_display_profile}**`)
+                return message.channel.send(`✅ **${lang.trad.handle_success_associate} \`${prefix}handle\`${lang.trad.to_display_profile}**`)
             } else {
                 await message.channel.send(`⚠ **${lang.trad.warm}, ${lang.trad.handle_not_exist}**`)
             }
         } else {
             user = await User.tryGetUserFromHandle(handle)
-            return await message.channel.send(`⚠ **${lang.trad.warm}, ${lang.trad.handle_already_use_by} <@${user.discordID }>**"`)
+            return message.channel.send(`⚠ **${lang.trad.warm}, ${lang.trad.handle_already_use_by} <@${user.discordID }>**"`)
         }
     }else {
-        return await message.channel.send(`⚠ **${lang.trad.warm}, ${lang.trad.handle_already_associate}.\n${lang.trad.execute_next_cmd} \`${prefix}handle unset\` ${lang.trad.before_associate_another_handle}**`)
+        return message.channel.send(`⚠ **${lang.trad.warm}, ${lang.trad.handle_already_associate}.\n${lang.trad.execute_next_cmd} \`${prefix}handle unset\` ${lang.trad.before_associate_another_handle}**`)
     }
 }

@@ -12,9 +12,8 @@ module.exports = {
      */
     async updateUser(user){
         if (!await select.isRegisterFromHandle(user.handle)) return
-        if (!await select.isOrganizationRegisterFromSID(user.organizationSID)) {
+        if (!await select.isOrganizationRegisterFromSID(user.organizationSID))
             await insert.insertOrganisation(await scAPI.getOrganization(user.organizationSID))
-        }
         await db.query(`
                     Update users
                     set
@@ -79,6 +78,25 @@ module.exports = {
                     Insert into speak
                     ("userID", "langID")
                     values ${strReturn}`, langData
+        )
+    },
+    async updateReferral(discordID,referral){
+        await db.query(`
+            Update users
+            set referral = $1,
+                "referralPrint"=0
+            where "discordID" = $2`,
+            [referral,discordID]
+        )
+    },
+    async updatePrintStat(referralPrint,discordID){
+        if (typeof referralPrint!=="number")return
+        referralPrint+=1
+        await db.query(`
+            Update users
+            set "referralPrint" = $1
+            where "discordID" = $2`,
+            [referralPrint,discordID]
         )
     }
 }
