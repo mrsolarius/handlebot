@@ -277,7 +277,7 @@ module.exports = {
             SELECT *
             FROM stars
             inner join affiliations a on stars."codeAffiliation" = a."codeAffiliation"
-            where "starCode" = $1
+            where SIMILARITY("starCode",$1)>0.4
         `,[starCode])
         if (data.rowCount!==0)
             return new Star.build(

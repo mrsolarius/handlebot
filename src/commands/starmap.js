@@ -1,4 +1,6 @@
 const updateStarMap = require('./starMap/update')
+const displayStar = require('./starMap/displayStar')
+const select = require('../interfaces/database/select')
 /**
  *
  * @param {import('discord.js').Message} message
@@ -13,8 +15,13 @@ module.exports = async (message,lang) => {
         case 'help':
 
             break;
-        case 'default':
-
+        case 'star':
+            const selectStars = await select.getStar(contentArray[2]);
+            console.log(selectStars)
+            if (selectStars !==false)
+                return displayStar(message, selectStars, lang)
+            else
+                return message.channel.send(`⚠ **Le systeme ${contentArray[2]} na pas été trouvé**`)
             break;
     }
 }

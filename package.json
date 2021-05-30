@@ -12,7 +12,7 @@
   "description": "Le handle bot est un bot discord permetant de facilement retrouver c'est amis sur start citizen !",
   "main": "start.js",
   "scripts": {
-    "test": "node start.js --dev",
+    "dev": "node start.js --dev",
     "start": "node start.js"
   },
   "repository": {
